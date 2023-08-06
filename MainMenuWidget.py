@@ -1326,7 +1326,6 @@ class MainMenuWidget(QtWidgets.QWidget):
         self.emergency_lighting_button.setText('Off')
 
     def emergency_button_press(self):
-        settings.emergencyStatus = not settings.emergencyStatus
         settings.emergencyEvent = True
 
     def add_time(self):

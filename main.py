@@ -88,12 +88,10 @@ class MyApp(Ui_MainWindow):
 
 	def change_stage(self):
 		if settings.changeStageEvent:
-			print(settings.stages)
 			settings.currentStage = 0
 			for st in settings.stages:
 				if st:
 					settings.currentStage = settings.stages.index(st)+1
-					print(settings.currentStage)
 					break
 			self.remove_selection()
 			if settings.currentStage == 1:
@@ -173,10 +171,13 @@ class MyApp(Ui_MainWindow):
 
 	def emergencyEvent(self):
 		if settings.emergencyEvent:
+			settings.emergencyStatus = not settings.emergencyStatus
 			if settings.emergencyStatus:
 				self.mainMenuWidget.emergency_button_off()
+				game.emergency_on()
 			else:
 				self.mainMenuWidget.emergency_button_on()
+				game.emergency_off()
 			print('emergencyStatus =', settings.emergencyStatus)
 			settings.emergencyEvent = False
 
@@ -189,6 +190,7 @@ class MyApp(Ui_MainWindow):
 		self.start_main_timer()
 		settings.readyToStart = False
 		settings.event = False
+		game.init_game()
 
 	def start_game(self):
 		self.stop_blink_timer()
@@ -196,6 +198,7 @@ class MyApp(Ui_MainWindow):
 		settings.changeStageEvent = True
 		settings.initStatus = False
 		settings.event = False
+		game.start_game()
 
 	def stop_game(self):
 		self.stop_blink_timer()
@@ -205,6 +208,7 @@ class MyApp(Ui_MainWindow):
 		self.mainMenuWidget.set_main_time()
 		self.set_default()
 		settings.event = False
+		game.stop_game()
 
 	def start_stage(self, widget):
 		widget.start_event()
@@ -213,6 +217,7 @@ class MyApp(Ui_MainWindow):
 		self.exclude_disabling()
 		settings.startStageEvent = False
 		settings.stageStatus = True
+		game.start_stage()
 
 	def stop_stage(self, widget):
 		widget.stop_event()
@@ -222,6 +227,7 @@ class MyApp(Ui_MainWindow):
 		settings.stageStatus = False
 		settings.changeStageEvent = True
 		settings.stageTime = 600
+		game.stop_stage()
 
 	def blink_button(self):
 		if not settings.outs['tableButton']:
@@ -229,6 +235,7 @@ class MyApp(Ui_MainWindow):
 		else:
 			self.mainMenuWidget.white_start_button()
 		settings.outs['tableButton'] = not settings.outs['tableButton']
+		game.reset_out('tableButton')
 	def start_blink_timer(self):
 		self.blink_timer = QTimer()
 		self.blink_timer.timeout.connect(self.blink_button)
