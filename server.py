@@ -43,6 +43,7 @@ class Server:
 			else:
 				print(f"Connected by {addr}")
 				self.connections.append(conn)
+				self.init_settings()
 
 			finally:
 				for conn in self.connections:
@@ -59,6 +60,10 @@ class Server:
 							ind = self.connections.index(conn)
 							self.connections.pop(ind)
 							
+
+	def init_settings(self):
+		pass
+
 
 	def message_handler(self, mes):
 		self.send_message(mes)

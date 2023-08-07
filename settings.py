@@ -3,6 +3,17 @@ mainTime = 0
 stageTime = 0
 addedTime = 0
 
+startMainTime = 0
+startStageTime1 = 0
+startStageTime0 = 0
+startSoundTime = 0
+startEmergencyTime = 0
+mainTimer = False
+stageTimer1 = False
+stageTimer0 = False
+soundTimer = False
+emergencyTimer = False
+
 def get_hours(time):
 	hours = int(time / 3600)
 	if hours < 10:
@@ -31,6 +42,9 @@ event = False
 
 emergencyStatus = False
 emergencyEvent = False
+
+volume = 100
+volumeEvent = False
 
 scriptsMap = 0
 

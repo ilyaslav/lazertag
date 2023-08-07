@@ -696,7 +696,7 @@ class MainMenuWidget(QtWidgets.QWidget):
 "border: 1px solid #aaa;\n"
 "border-radius: 4px;\n"
 "}")
-        self.volume_level.setProperty("value", 50)
+        self.volume_level.setProperty("value", 100)
         self.volume_level.setOrientation(QtCore.Qt.Horizontal)
         self.volume_level.setObjectName("volume_level")
         self.verticalLayout_10.addWidget(self.volume_level)

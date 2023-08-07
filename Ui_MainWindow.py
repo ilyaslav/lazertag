@@ -152,6 +152,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.script5_box.currentTextChanged.connect(self.script5_box_event)
         self.mainMenuWidget.start_game_button.pressed.connect(self.start_game_button_press)
         self.mainMenuWidget.stop_game_button.pressed.connect(self.stop_game_button_press)
+        self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume)
 
     def set_notReady(self):
         settings.readyToStart = False
@@ -279,7 +280,6 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(5, self.mainMenuWidget.script5_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script5_box)
         self.activate_stage(9, True)
-        print(1111111111111)
 
         if self.mainMenuWidget.script5_box.currentText() == 'Сценарий не выбран':
             self.activate_stage(9, False)
@@ -326,6 +326,16 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.enabled_check_time()
         self.mainMenuWidget.scripts_map.setCurrentText('Сценарная карта не выбрана')
         self.mainMenuWidget.red_timer()
+
+    def change_volume(self):
+        if settings.volume != self.mainMenuWidget.volume_level.value():
+            settings.volume = self.mainMenuWidget.volume_level.value()
+            settings.volumeEvent = True
+            print(settings.volume)
+
+    def set_volume_level(self, value):
+        if value >= 0 and value <= 100:
+            self.mainMenuWidget.volume_level.setValue(value)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

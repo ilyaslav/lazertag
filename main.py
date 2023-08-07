@@ -26,6 +26,7 @@ class MyApp(Ui_MainWindow):
 		self.restart_stage()
 		self.exclude_stage()
 		self.include_stage()
+		game.check_timers()
 
 	def change_game_status(self):
 		if not settings.readyToStart and not settings.initStatus\
@@ -62,6 +63,7 @@ class MyApp(Ui_MainWindow):
 
 	def restart_stage(self):
 		if settings.restartStageEvent:
+			self.white_stage()
 			if self.script1_widget.is_selected1:
 				settings.stages[0] = True
 			if self.script1_widget.is_selected2:
@@ -85,6 +87,12 @@ class MyApp(Ui_MainWindow):
 			settings.restartStageEvent = False
 			settings.changeStageEvent = True
 
+	def white_stage(self):
+		widget = self.find_stage()
+		if widget.is_selected2:
+			widget.white_stage_label2()
+		else:
+			widget.white_stage_label1()
 
 	def change_stage(self):
 		if settings.changeStageEvent:
