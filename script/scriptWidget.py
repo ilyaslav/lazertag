@@ -14,3 +14,5 @@ class ScriptWidget(QtWidgets.QWidget):
     	pass
     def exclude_disabling(self):
         pass
+    def check_last_stage(self):
+        pass

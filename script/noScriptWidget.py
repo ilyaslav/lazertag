@@ -1294,6 +1294,11 @@ class NoScriptWidget(ScriptWidget):
 "     background-color: #cfd1cd;\n"
 "}")
 
+    def check_last_stage(self):
+        if settings.currentStage == settings.numberOfStage*2:
+            print(settings.currentStage)
+            self.exclude_stage2.setDisabled(True)
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))

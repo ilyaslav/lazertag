@@ -189,7 +189,6 @@ class Ui_MainWindow(object):
         self.gridLayout_11.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(1, self.mainMenuWidget.script1_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script1_box)
-        settings.currentStage = 1
         self.activate_stage(1, True)
 
         if self.mainMenuWidget.script1_box.currentText() == 'Сценарий не выбран':

@@ -44,6 +44,7 @@ class MyApp(Ui_MainWindow):
 		if widget:
 			if settings.startStageEvent and not settings.stageStatus:
 				self.start_stage(widget)
+				self.disable_stage()
 			elif settings.stopStageEvent and settings.stageStatus:
 				self.stop_stage(widget)
 
@@ -87,6 +88,18 @@ class MyApp(Ui_MainWindow):
 			settings.restartStageEvent = False
 			settings.changeStageEvent = True
 
+	def disable_stage(self):
+		if settings.currentStage == 1 or settings.currentStage == 2:
+			self.mainMenuWidget.disabled_script1()
+		elif settings.currentStage == 3 or settings.currentStage == 4:
+			self.mainMenuWidget.disabled_script2()
+		elif settings.currentStage == 5 or settings.currentStage == 6:
+			self.mainMenuWidget.disabled_script3()
+		elif settings.currentStage == 7 or settings.currentStage == 8:
+			self.mainMenuWidget.disabled_script4()
+		elif settings.currentStage == 9 or settings.currentStage == 10:
+			self.mainMenuWidget.disabled_script5()
+
 	def white_stage(self):
 		widget = self.find_stage()
 		if widget.is_selected2:
@@ -102,6 +115,9 @@ class MyApp(Ui_MainWindow):
 					settings.currentStage = settings.stages.index(st)+1
 					break
 			self.remove_selection()
+			widget = self.find_stage()
+			if widget:
+				widget.check_last_stage()
 			if settings.currentStage == 1:
 				self.script1_widget.is_selected1 = True
 				self.script1_widget.yellow_stage_label1()

@@ -212,7 +212,6 @@ def check_to_start():
 
 def change_volume():
 	gs.send_message(f'volume{int(settings.volume)};')
-	print(settings["volume"])
 
 def play_music(music):
 	gs.send_message(f'play{music};')
