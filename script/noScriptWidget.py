@@ -1004,7 +1004,7 @@ class NoScriptWidget(ScriptWidget):
             else:
                 if not settings.stageStatus:
                     settings.stageTimer = 'decreasing'
-                self.set_time()
+                self.set_time(settings.stageTime)
                 self.add_time_bt1.setDisabled(False)
                 self.reduce_time_bt1.setDisabled(False)
 
@@ -1019,31 +1019,53 @@ class NoScriptWidget(ScriptWidget):
             else:
                 if not settings.stageStatus:
                     settings.stageTimer = 'decreasing'
-                self.set_time()
+                self.set_time(settings.stageTime)
                 self.add_time_bt2.setDisabled(False)
                 self.reduce_time_bt2.setDisabled(False)
 
     def bt_add_time1_press(self):
         if self.is_selected1:
-            settings.stageTime+=60
-            self.set_time()
+            if not settings.check_last():
+                settings.stageTime+=60
+                self.set_time(settings.stageTime)
+            else:
+                settings.mainTime+=60
+                settings.addedTime+=60
+                self.set_time(settings.mainTime)
 
     def bt_reduce_time1_press(self):
         if self.is_selected1:
-            if settings.stageTime > 60:
-                settings.stageTime-=60
-                self.set_time()
+            if not settings.check_last():
+                if settings.stageTime > 60:
+                    settings.stageTime-=60
+                    self.set_time(settings.stageTime)
+            else:
+                if settings.addedTime and settings.mainTime-60 > 0:
+                    settings.mainTime-=60
+                    settings.addedTime-=60
+                    self.set_time(settings.mainTime)
 
     def bt_add_time2_press(self):
         if self.is_selected2:
-            settings.stageTime+=60
-            self.set_time()
+            if not settings.check_last():
+                settings.stageTime+=60
+                self.set_time(settings.stageTime)
+            else:
+                settings.mainTime+=60
+                settings.addedTime+=60
+                self.set_time(settings.mainTime)
 
     def bt_reduce_time2_press(self):
         if self.is_selected2:
-            if settings.stageTime > 60:
-                settings.stageTime-=60
-                self.set_time()
+            if not settings.check_last():
+                if settings.stageTime > 60:
+                    settings.stageTime-=60
+                    self.set_time(settings.stageTime)
+            else:
+                if settings.addedTime and settings.mainTime-60 > 0:
+                    settings.mainTime-=60
+                    settings.addedTime-=60
+                    self.set_time(settings.mainTime)
 
     def bt_start1_press(self):
         if self.is_selected1 and not settings.stageStatus:
@@ -1154,27 +1176,27 @@ class NoScriptWidget(ScriptWidget):
             self.full_enabled_event2()
             self.stage2_time_check()
 
-    def set_time(self):
-        if settings.stageTime < 3600:
+    def set_time(self, time):
+        if time < 3600:
             if self.is_selected1:
                 self.stage1_timer.setText(
-                    f"{settings.get_minutes(settings.stageTime)} :" +\
-                    f" {settings.get_seconds(settings.stageTime)}")
+                    f"{settings.get_minutes(time)} :" +\
+                    f" {settings.get_seconds(time)}")
             elif self.is_selected2:
                 self.stage2_timer.setText(
-                    f"{settings.get_minutes(settings.stageTime)} :" +\
-                    f" {settings.get_seconds(settings.stageTime)}")
+                    f"{settings.get_minutes(time)} :" +\
+                    f" {settings.get_seconds(time)}")
         else:
             if self.is_selected1:
                 self.stage1_timer.setText(
-                    f"{settings.get_hours(settings.stageTime)} :" +\
-                    f"{settings.get_minutes(settings.stageTime)} :" +\
-                    f" {settings.get_seconds(settings.stageTime)}")
+                    f"{settings.get_hours(time)} :" +\
+                    f"{settings.get_minutes(time)} :" +\
+                    f" {settings.get_seconds(time)}")
             elif self.is_selected2:
                 self.stage2_timer.setText(
-                    f"{settings.get_hours(settings.stageTime)} :" +\
-                    f"{settings.get_minutes(settings.stageTime)} :" +\
-                    f" {settings.get_seconds(settings.stageTime)}")
+                    f"{settings.get_hours(time)} :" +\
+                    f"{settings.get_minutes(time)} :" +\
+                    f" {settings.get_seconds(time)}")
 
     def init_time(self):
         if settings.stageTimer == 'increasing':
@@ -1294,10 +1316,10 @@ class NoScriptWidget(ScriptWidget):
 "     background-color: #cfd1cd;\n"
 "}")
 
-    def check_last_stage(self):
-        if settings.currentStage == settings.numberOfStage*2:
-            print(settings.currentStage)
-            self.exclude_stage2.setDisabled(True)
+    def last_stage_event(self):
+        self.exclude_stage2.setDisabled(True)
+        self.check_stage2_time.setCheckState(2)
+        self.check_stage2_time.setDisabled(True)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate

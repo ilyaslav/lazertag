@@ -117,7 +117,7 @@ class MyApp(Ui_MainWindow):
 			self.remove_selection()
 			widget = self.find_stage()
 			if widget:
-				widget.check_last_stage()
+				self.check_last_stage(widget)
 			if settings.currentStage == 1:
 				self.script1_widget.is_selected1 = True
 				self.script1_widget.yellow_stage_label1()
@@ -150,6 +150,11 @@ class MyApp(Ui_MainWindow):
 				self.script5_widget.yellow_stage_label2()
 			settings.changeStageEvent = False
 			self.change_tab_color()
+
+	def check_last_stage(self, widget):
+		if settings.check_last():
+			widget.last_stage_event()
+			self.start_last_stage_timer(widget)
 
 	def exclude_stage(self):
 		if settings.excludeStageEvent:
@@ -237,7 +242,8 @@ class MyApp(Ui_MainWindow):
 	def start_stage(self, widget):
 		widget.start_event()
 		widget.init_time()
-		self.start_stage_timer(widget)
+		if not settings.check_last():
+			self.start_stage_timer(widget)
 		self.exclude_disabling()
 		settings.startStageEvent = False
 		settings.stageStatus = True
@@ -284,18 +290,30 @@ class MyApp(Ui_MainWindow):
 		if settings.stageTimer == 'decreasing':
 			if settings.stageTime:
 				settings.stageTime-=1
-				widget.set_time()
+				widget.set_time(settings.stageTime)
 			else:
 				self.stop_stage_timer()
 				widget.stop_event()
 		else:
 			settings.stageTime+=1
-			widget.set_time()
+			widget.set_time(settings.stageTime)
 	def start_stage_timer(self, widget):
 		self.stage_timer = QTimer()
 		self.stage_timer.timeout.connect(lambda: self.stage_timer_event(widget))
 		self.stage_timer.start(1000)
 	def stop_stage_timer(self):
+		self.stage_timer.stop()
+
+	def last_stage_timer_event(self, widget):
+		if settings.mainTime:
+			widget.set_time(settings.mainTime)
+		else:
+			self.stop_stage_timer()
+	def start_last_stage_timer(self, widget):
+		self.stage_timer = QTimer()
+		self.stage_timer.timeout.connect(lambda: self.last_stage_timer_event(widget))
+		self.stage_timer.start(1000)
+	def stop_last_stage_timer(self):
 		self.stage_timer.stop()
 
 	def change_tab_color(self):

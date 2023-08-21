@@ -14,6 +14,9 @@ stageTimer0 = False
 soundTimer = False
 emergencyTimer = False
 
+def check_last():
+	return stages.count(True) == 1
+
 def get_hours(time):
 	hours = int(time / 3600)
 	if hours < 10:
