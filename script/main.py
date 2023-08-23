@@ -153,6 +153,7 @@ class MyApp(Ui_MainWindow):
 
 	def check_last_stage(self, widget):
 		if settings.check_last():
+			print(settings.stages)
 			widget.last_stage_event()
 			self.start_last_stage_timer(widget)
 
@@ -293,7 +294,7 @@ class MyApp(Ui_MainWindow):
 				widget.set_time(settings.stageTime)
 			else:
 				self.stop_stage_timer()
-				widget.stop_event()
+				settings.stopStageEvent = True
 		else:
 			settings.stageTime+=1
 			widget.set_time(settings.stageTime)
@@ -305,10 +306,13 @@ class MyApp(Ui_MainWindow):
 		self.stage_timer.stop()
 
 	def last_stage_timer_event(self, widget):
-		if settings.mainTime:
+		if settings.mainTime and settings.check_last():
 			widget.set_time(settings.mainTime)
+		elif not settings.check_last():
+			self.stop_last_stage_timer()
 		else:
-			self.stop_stage_timer()
+			settings.stopStageEvent = True
+			self.stop_last_stage_timer()
 	def start_last_stage_timer(self, widget):
 		self.stage_timer = QTimer()
 		self.stage_timer.timeout.connect(lambda: self.last_stage_timer_event(widget))

@@ -222,6 +222,31 @@ def pause_music(music):
 def stop_music(music):
 	gs.send_message(f'stop{music};')
 
+def send_music(music, time):
+	play_music(music)
+	time.sleep(time)
+	stop_music(music)
+
+def end_stage_music_event():
+	threading.Thread(target = end_stage_music, daemon = True).start()
+
+def end_stage_music():
+	send_music(19, 0)
+	send_music(3, 0)
+	send_music('red', 0)
+	send_music('blue', 0)
+	
+	if 'red' > 'blue':
+		send_music(4, 0)
+	elif 'red' < 'blue':
+		send_music(5, 0)
+
+	if not settings.currentStage%2:
+		send_music(20, 0)
+	else:
+		pass #проверка следующего этапа
+
+
 def init_settings():
 	settings.outs = {
 	'tableButton': True,
