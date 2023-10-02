@@ -17,6 +17,9 @@ emergencyTimer = False
 def check_last():
 	return stages.count(True) == 1
 
+def check_end():
+	return stages.count(True) == 0
+
 def get_hours(time):
 	hours = int(time / 3600)
 	if hours < 10:

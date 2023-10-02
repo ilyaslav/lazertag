@@ -47,7 +47,6 @@ class MyApp(Ui_MainWindow):
 				self.disable_stage()
 			elif settings.stopStageEvent and settings.stageStatus:
 				game.end_stage_music_event()
-				print('end')
 				self.stop_stage(widget)
 
 	def find_stage(self):
@@ -155,7 +154,6 @@ class MyApp(Ui_MainWindow):
 
 	def check_last_stage(self, widget):
 		if settings.check_last():
-			print(settings.stages)
 			widget.last_stage_event()
 			self.start_last_stage_timer(widget)
 
@@ -233,6 +231,7 @@ class MyApp(Ui_MainWindow):
 		game.start_game()
 
 	def stop_game(self):
+		game.end_game_music_event()
 		self.stop_blink_timer()
 		self.stop_main_timer()
 		game.set_main_time()
@@ -323,7 +322,6 @@ class MyApp(Ui_MainWindow):
 		self.stage_timer.stop()
 
 	def change_tab_color(self):
-		print(int((settings.currentStage+1)/2))
 		self.tabWidget.set_green(int((settings.currentStage+1)/2))
 
 if __name__ == "__main__":

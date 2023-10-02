@@ -230,30 +230,40 @@ def send_music(music, tm):
 def end_stage_music_event():
 	threading.Thread(target = end_stage_music, daemon = True).start()
 
+def end_game_music_event():
+	threading.Thread(target = end_game_music, daemon = True).start()
+
+def end_game_music():
+	print('stop game')
+	settings.currentStage = 0
+	red = settings.getCount('red')
+	blue = settings.getCount('blue')
+	print(f'red {red}')
+	print(f'blue {blue}')
+	send_music(3, 4)
+	send_music(red, 1)
+	send_music(blue, 1)
+	if red > blue:
+		send_music(4, 2)
+	elif red < blue:
+		send_music(5, 2)
+	send_music(6, 4)
+
 def end_stage_music():
 	send_music(19, 3)
-	#окончание игры
-	#send_music(3, 4)
-	#red = settings.getCount('red')
-	#blue = settings.getCount('blue')
-	#send_music(red, 1)
-	#send_music(blue, 1)
-	#
-	#if red > blue:
-	#	send_music(4, 2)
-	#elif red < blue:
-	#	send_music(5, 2)
 
-	if not settings.currentStage%2: #если прошел 1 подэтап
+	if settings.check_end():
+		end_game_music()
+	elif not settings.currentStage%2: #если прошел 1 подэтап
 		send_music(20, 2)
-	elif settings.check_last():
-		pass
 	else:
 		#проверка следующего этапа
-		if settings.getNextStageName() == 'Контрольная точка' or\
-		settings.getNextStageName() == 'Штурм':
+		if 'Death match' in settings.getNextStageName():
+			pass
+		elif 'Контрольная точка' in settings.getNextStageName() or\
+		'Штурм' in settings.getNextStageName():
 			send_music(21, 4)
-		elif settings.getNextStageName() == 'Бомба':
+		elif 'Бомба' in settings.getNextStageName():
 			send_music(22, 5)
 
 
