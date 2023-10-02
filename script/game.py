@@ -222,29 +222,39 @@ def pause_music(music):
 def stop_music(music):
 	gs.send_message(f'stop{music};')
 
-def send_music(music, time):
+def send_music(music, tm):
 	play_music(music)
-	time.sleep(time)
+	time.sleep(tm)
 	stop_music(music)
 
 def end_stage_music_event():
 	threading.Thread(target = end_stage_music, daemon = True).start()
 
 def end_stage_music():
-	send_music(19, 0)
-	send_music(3, 0)
-	send_music('red', 0)
-	send_music('blue', 0)
-	
-	if 'red' > 'blue':
-		send_music(4, 0)
-	elif 'red' < 'blue':
-		send_music(5, 0)
+	send_music(19, 3)
+	#окончание игры
+	#send_music(3, 4)
+	#red = settings.getCount('red')
+	#blue = settings.getCount('blue')
+	#send_music(red, 1)
+	#send_music(blue, 1)
+	#
+	#if red > blue:
+	#	send_music(4, 2)
+	#elif red < blue:
+	#	send_music(5, 2)
 
-	if not settings.currentStage%2:
-		send_music(20, 0)
+	if not settings.currentStage%2: #если прошел 1 подэтап
+		send_music(20, 2)
+	elif settings.check_last():
+		pass
 	else:
-		pass #проверка следующего этапа
+		#проверка следующего этапа
+		if settings.getNextStageName() == 'Контрольная точка' or\
+		settings.getNextStageName() == 'Штурм':
+			send_music(21, 4)
+		elif settings.getNextStageName() == 'Бомба':
+			send_music(22, 5)
 
 
 def init_settings():

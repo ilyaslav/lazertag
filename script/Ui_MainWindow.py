@@ -181,19 +181,21 @@ class Ui_MainWindow(object):
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script4_box, scr['scripts'][3])
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script5_box, scr['scripts'][4])
 
-    def activate_stage(self, num, boolean):
+    def activate_stage(self, num, boolean, name):
         settings.stages[num-1] = boolean
         settings.stages[num] = boolean
+        settings.stageNames[int(num/2)] = name
 
     def script1_box_event(self):
         self.gridLayout_11.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(1, self.mainMenuWidget.script1_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script1_box)
-        self.activate_stage(1, True)
+        name = self.mainMenuWidget.script1_box.currentText()
+        self.activate_stage(1, True, name)
 
         if self.mainMenuWidget.script1_box.currentText() == 'Сценарий не выбран':
             settings.currentStage = 0
-            self.activate_stage(1, False)
+            self.activate_stage(1, False, name)
             self.script1_widget = QtWidgets.QWidget(self.script1_tab)
             self.gridLayout_11.addWidget(self.script1_widget, 0, 0, 1, 1)
         elif self.mainMenuWidget.script1_box.currentText() == 'Без сценария'\
@@ -212,10 +214,11 @@ class Ui_MainWindow(object):
         self.gridLayout_22.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(2, self.mainMenuWidget.script2_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script2_box)
-        self.activate_stage(3, True)
+        name = self.mainMenuWidget.script2_box.currentText()
+        self.activate_stage(3, True, name)
 
         if self.mainMenuWidget.script2_box.currentText() == 'Сценарий не выбран':
-            self.activate_stage(3, False)
+            self.activate_stage(3, False, name)
             self.script2_widget = QtWidgets.QWidget(self.script2_tab)
             self.gridLayout_22.addWidget(self.script2_widget, 0, 0, 1, 1)
         elif self.mainMenuWidget.script2_box.currentText() == 'Без сценария'\
@@ -234,10 +237,11 @@ class Ui_MainWindow(object):
         self.gridLayout_33.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(3, self.mainMenuWidget.script3_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script3_box)
-        self.activate_stage(5, True)
+        name = self.mainMenuWidget.script3_box.currentText()
+        self.activate_stage(5, True, name)
 
         if self.mainMenuWidget.script3_box.currentText() == 'Сценарий не выбран':
-            self.activate_stage(5, False)
+            self.activate_stage(5, False, name)
             self.script3_widget = QtWidgets.QWidget(self.script3_tab)
             self.gridLayout_33.addWidget(self.script3_widget, 0, 0, 1, 1)
         elif self.mainMenuWidget.script3_box.currentText() == 'Без сценария'\
@@ -256,10 +260,11 @@ class Ui_MainWindow(object):
         self.gridLayout_44.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(4, self.mainMenuWidget.script4_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script4_box)
-        self.activate_stage(7, True)
+        name = self.mainMenuWidget.script4_box.currentText()
+        self.activate_stage(7, True, name)
 
         if self.mainMenuWidget.script4_box.currentText() == 'Сценарий не выбран':
-            self.activate_stage(7, False)
+            self.activate_stage(7, False, name)
             self.script4_widget = QtWidgets.QWidget(self.script4_tab)
             self.gridLayout_44.addWidget(self.script4_widget, 0, 0, 1, 1)
         elif self.mainMenuWidget.script4_box.currentText() == 'Без сценария'\
@@ -278,10 +283,11 @@ class Ui_MainWindow(object):
         self.gridLayout_55.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(5, self.mainMenuWidget.script5_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script5_box)
-        self.activate_stage(9, True)
+        name = self.mainMenuWidget.script5_box.currentText()
+        self.activate_stage(9, True, name)
 
         if self.mainMenuWidget.script5_box.currentText() == 'Сценарий не выбран':
-            self.activate_stage(9, False)
+            self.activate_stage(9, False, name)
             self.script5_widget = QtWidgets.QWidget(self.script5_tab)
             self.gridLayout_55.addWidget(self.script5_widget, 0, 0, 1, 1)
         elif self.mainMenuWidget.script5_box.currentText() == 'Без сценария'\

@@ -53,6 +53,7 @@ scriptsMap = 0
 
 currentStage = 0
 stages = [False, False, False, False, False, False, False, False, False, False]
+stageNames = ['Сценарий не выбран','Сценарий не выбран','Сценарий не выбран','Сценарий не выбран','Сценарий не выбран']
 numberOfStage = 0
 startStageEvent = False
 stopStageEvent = False
@@ -72,6 +73,67 @@ settingsToStart = {
 	'instructors': True
 }
 
+def getStageName():
+	return stageNames[int((currentStage-1)/2)]
+
+def getNextStageName():
+	print(f'currentStage {currentStage}')
+	return stageNames[int(currentStage/2)]
+
+def findCounter(color):
+	if color == 'red':
+		if currentStage == 1:
+			return counters[(1,'red')]
+		elif currentStage == 2:
+			return counters[(2,'red')]
+		elif currentStage == 3:
+			return counters[(3,'red')]
+		elif currentStage == 4:
+			return counters[(4,'red')]
+		elif currentStage == 5:
+			return counters[(5,'red')]
+		elif currentStage == 6:
+			return counters[(6,'red')]
+		elif currentStage == 7:
+			return counters[(7,'red')]
+		elif currentStage == 8:
+			return counters[(8,'red')]
+		elif currentStage == 9:
+			return counters[(9,'red')]
+		elif currentStage == 10:
+			return counters[(10,'red')]
+		else:
+			return counters['mainСounterRed']
+	else:
+		if currentStage == 1:
+			return counters[(1,'blue')]
+		elif currentStage == 2:
+			return counters[(2,'blue')]
+		elif currentStage == 3:
+			return counters[(3,'blue')]
+		elif currentStage == 4:
+			return counters[(4,'blue')]
+		elif currentStage == 5:
+			return counters[(5,'blue')]
+		elif currentStage == 6:
+			return counters[(6,'blue')]
+		elif currentStage == 7:
+			return counters[(7,'blue')]
+		elif currentStage == 8:
+			return counters[(8,'blue')]
+		elif currentStage == 9:
+			return counters[(9,'blue')]
+		elif currentStage == 10:
+			return counters[(10,'blue')]
+		else:
+			return counters['mainСounterBlue']
+
+def getCount(color):
+	return findCounter(color)
+
+def setCount(color, count):
+	counter = findCounter(color)
+	counter = count
 
 counters = {
 	'mainСounterRed': 0,
@@ -140,3 +202,6 @@ inputs = {
 	'bomb_activated': False,
 	'bomb_planted': False
 }
+
+if __name__ == '__main__':
+	pass

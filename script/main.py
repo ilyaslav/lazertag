@@ -46,6 +46,8 @@ class MyApp(Ui_MainWindow):
 				self.start_stage(widget)
 				self.disable_stage()
 			elif settings.stopStageEvent and settings.stageStatus:
+				game.end_stage_music_event()
+				print('end')
 				self.stop_stage(widget)
 
 	def find_stage(self):
