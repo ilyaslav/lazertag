@@ -1,3 +1,6 @@
+LOW = True
+HIGHT = False
+
 time = {}
 mainTime = 0
 stageTime = 0
@@ -13,6 +16,7 @@ stageTimer1 = False
 stageTimer0 = False
 soundTimer = False
 emergencyTimer = False
+
 
 def check_last():
 	return stages.count(True) == 1
@@ -165,45 +169,45 @@ counters = {
 
 
 outs = {
-	'tableButton': True,
-	'ARed': True,
-	'ABlue': True,
-	'BRed': True,
-	'BBlue': True,
-	'AdminLight': True,
-	'area1_W1': False,
-	'area1_TL1': True,
-	'area2_W2': False,
-	'area2_TL2': True,
-	'area3_W3': False,
-	'area3_TL3': True,
-	'area4_W4': False,
-	'area4_TL4': True,
-	'hallway1_WK1': False,
-	'hallway1_TLK1': True,
-	'hallway2_WK2': False,
-	'hallway2_TLK2': True,
-	'give_LK1': True,
-	'medicBag_A': False,
-	'medicBag_B': False
+	'tableButton': HIGHT,
+	'ARed': HIGHT,
+	'ABlue': HIGHT,
+	'BRed': HIGHT,
+	'BBlue': HIGHT,
+	'AdminLight': HIGHT,
+	'area1_W1': LOW,
+	'area1_TL1': HIGHT,
+	'area2_W2': LOW,
+	'area2_TL2': HIGHT,
+	'area3_W3': LOW,
+	'area3_TL3': HIGHT,
+	'area4_W4': LOW,
+	'area4_TL4': HIGHT,
+	'hallway1_WK1': LOW,
+	'hallway1_TLK1': HIGHT,
+	'hallway2_WK2': LOW,
+	'hallway2_TLK2': HIGHT,
+	'give_LK1': HIGHT,
+	'medicBag_A': LOW,
+	'medicBag_B': LOW
 }
 
 
 inputs = {
-	'game_button': False,
-	'start_stage': False,
-	'stop_stage': False,
-	'sound_button': False,
-	'light_button': False,
-	'signal_R': False,
-	'signal_G': False,
-	'signal_B': False,
-	'takeFlag_A': False,
-	'takeFlag_B': False,
-	'giveFlag_A': False,
-	'giveFlag_B': False,
-	'bomb_activated': False,
-	'bomb_planted': False
+	'game_button': LOW,
+	'start_stage': LOW,
+	'stop_stage': LOW,
+	'sound_button': LOW,
+	'light_button': LOW,
+	'signal_R': LOW,
+	'signal_G': LOW,
+	'signal_B': LOW,
+	'takeFlag_A': LOW,
+	'takeFlag_B': LOW,
+	'giveFlag_A': LOW,
+	'giveFlag_B': LOW,
+	'bomb_activated': LOW,
+	'bomb_planted': LOW
 }
 
 if __name__ == '__main__':

@@ -4,107 +4,6 @@ import threading
 import time
 from server import Server
 
-data = {}
-with open('data.txt') as json_file:
-	data = json.load(json_file)
-
-class GameServer(Server):
-	def __init__(self, *args, **kwargs):
-		super().__init__(**kwargs)
-
-	def message_handler(self, mes):
-		print(f'Принято сообщение: {mes}')
-		if mes == 'game_button1':
-			settings.inputs['game_button'] = True
-			start_main_timer()
-		elif mes == 'game_button0':
-			settings.inputs['game_button'] = False
-			stop_main_timer()
-		elif mes == 'start_stage1':
-			settings.inputs['start_stage'] = True
-			start_stage_timer1()
-		elif mes == 'start_stage0':
-			settings.inputs['start_stage'] = False
-			start_stage_timer0()
-		if mes == 'stop_stage1':
-			settings.inputs['stop_stage'] = True
-			start_stop_timer1()
-		elif mes == 'stop_stage0':
-			settings.inputs['stop_stage'] = False
-			stop_stage_timer0()
-		if mes == 'sound_button1':
-			settings.inputs['sound_button'] = True
-			start_sound_timer()
-		elif mes == 'sound_button0':
-			settings.inputs['sound_button'] = False
-			stop_sound_timer()
-		if mes == 'light_button1':
-			settings.inputs['light_button'] = True
-			start_emergency_timer()
-		elif mes == 'light_button0':
-			settings.inputs['light_button'] = False
-			stop_emergency_timer()
-		if mes == 'signal_R1':
-			settings.inputs['signal_R'] = True
-		elif mes == 'signal_R0':
-			settings.inputs['signal_R'] = False
-		if mes == 'signal_G1':
-			settings.inputs['signal_G'] = True
-		elif mes == 'signal_G0':
-			settings.inputs['signal_G'] = False
-		if mes == 'signal_B1':
-			settings.inputs['signal_B'] = True
-		elif mes == 'signal_B0':
-			settings.inputs['signal_B'] = False
-		if mes == 'takeFlag_A1':
-			settings.inputs['takeFlag_A'] = True
-		elif mes == 'takeFlag_A0':
-			settings.inputs['takeFlag_A'] = False
-		if mes == 'takeFlag_B1':
-			settings.inputs['takeFlag_B'] = True
-		elif mes == 'takeFlag_B0':
-			settings.inputs['takeFlag_B'] = False
-		if mes == 'giveFlag_A1':
-			settings.inputs['giveFlag_A'] = True
-		elif mes == 'giveFlag_A0':
-			settings.inputs['giveFlag_A'] = False
-		if mes == 'giveFlag_B1':
-			settings.inputs['giveFlag_B'] = True
-		elif mes == 'giveFlag_B0':
-			settings.inputs['giveFlag_B'] = False
-		if mes == 'bomb_activated1':
-			settings.inputs['bomb_activated'] = True
-		elif mes == 'bomb_activated0':
-			settings.inputs['bomb_activated'] = False
-		if mes == 'bomb_planted1':
-			settings.inputs['bomb_planted'] = True
-		elif mes == 'bomb_planted0':
-			settings.inputs['bomb_planted'] = False
-
-	def init_settings(self):
-		if not settings.emergencyStatus:
-			for out in settings.outs:
-				reset_out(out)
-		else:
-			emergency_on()
-
-gs = GameServer()
-threading.Thread(target=gs.start_server, daemon=True).start()
-
-def set_main_time():
-	settings.mainTime = settings.time[0]['mainTime']
-	settings.addedTime = 0
-
-def set_stage_time():
-	settings.stageTime = settings.time[0]['t5']
-
-
-settings.time = data['time']
-set_main_time()
-set_stage_time()
-settings.numberOfStage = data['scripts_map'][0]['numberOfStage']
-settings.scriptsMap = data['scripts_map'][0]['id']
-
 def start_main_timer():
 	settings.startMainTime = time.time()
 	settings.mainTimer = True
@@ -140,267 +39,409 @@ def stop_sound_timer():
 def stop_emergency_timer():
 	settings.emergencyTimer = False
 
-def check_timers():
-	if settings.mainTimer:
-		if check_time(settings.startMainTime):
-			if settings.gameStatus:
-				stop_game_script()
-			else:
-				start_game_script()
-	if settings.stageTimer1:
-		if check_time(settings.startStageTime1):
-			start_stage_script()
-	if settings.stageTimer0:
-		if check_time(settings.startStageTime0):
-			stop_stage_script()
-	if settings.soundTimer:
-		if check_time(settings.startSoundTime):
-			sound_script()
-	if settings.emergencyTimer:
-		if check_time(settings.startEmergencyTime):
-			emergency_script()
+class GameServer(Server):
+	def __init__(self, *args, **kwargs):
+		super().__init__(**kwargs)
 
-def check_time(timer):
-	return time.time() - timer >= 2 and time.time() - timer < 4
+	def message_handler(self, mes):
+		print(f'Принято сообщение: {mes}')
+		if mes == 'game_button1':
+			settings.inputs['game_button'] = settings.HIGHT
+			start_main_timer()
+		elif mes == 'game_button0':
+			settings.inputs['game_button'] = settings.LOW
+			stop_main_timer()
+		elif mes == 'start_stage1':
+			settings.inputs['start_stage'] = settings.HIGHT
+			start_stage_timer1()
+		elif mes == 'start_stage0':
+			settings.inputs['start_stage'] = settings.LOW
+			stop_stage_timer1()
+		if mes == 'stop_stage1':
+			settings.inputs['stop_stage'] = settings.HIGHT
+			start_stage_timer0()
+		elif mes == 'stop_stage0':
+			settings.inputs['stop_stage'] = settings.LOW
+			stop_stage_timer0()
+		if mes == 'sound_button1':
+			settings.inputs['sound_button'] = settings.HIGHT
+			start_sound_timer()
+		elif mes == 'sound_button0':
+			settings.inputs['sound_button'] = settings.LOW
+			stop_sound_timer()
+		if mes == 'light_button1':
+			settings.inputs['light_button'] = settings.HIGHT
+			start_emergency_timer()
+		elif mes == 'light_button0':
+			settings.inputs['light_button'] = settings.LOW
+			stop_emergency_timer()
+		if mes == 'signal_R1':
+			settings.inputs['signal_R'] = settings.HIGHT
+		elif mes == 'signal_R0':
+			settings.inputs['signal_R'] = settings.LOW
+		if mes == 'signal_G1':
+			settings.inputs['signal_G'] = settings.HIGHT
+		elif mes == 'signal_G0':
+			settings.inputs['signal_G'] = settings.LOW
+		if mes == 'signal_B1':
+			settings.inputs['signal_B'] = settings.HIGHT
+		elif mes == 'signal_B0':
+			settings.inputs['signal_B'] = settings.LOW
+		if mes == 'takeFlag_A1':
+			settings.inputs['takeFlag_A'] = settings.HIGHT
+		elif mes == 'takeFlag_A0':
+			settings.inputs['takeFlag_A'] = settings.LOW
+		if mes == 'takeFlag_B1':
+			settings.inputs['takeFlag_B'] = settings.HIGHT
+		elif mes == 'takeFlag_B0':
+			settings.inputs['takeFlag_B'] = settings.LOW
+		if mes == 'giveFlag_A1':
+			settings.inputs['giveFlag_A'] = settings.HIGHT
+		elif mes == 'giveFlag_A0':
+			settings.inputs['giveFlag_A'] = settings.LOW
+		if mes == 'giveFlag_B1':
+			settings.inputs['giveFlag_B'] = settings.HIGHT
+		elif mes == 'giveFlag_B0':
+			settings.inputs['giveFlag_B'] = settings.LOW
+		if mes == 'bomb_activated1':
+			settings.inputs['bomb_activated'] = settings.HIGHT
+		elif mes == 'bomb_activated0':
+			settings.inputs['bomb_activated'] = settings.LOW
+		if mes == 'bomb_planted1':
+			settings.inputs['bomb_planted'] = settings.HIGHT
+		elif mes == 'bomb_planted0':
+			settings.inputs['bomb_planted'] = settings.LOW
 
-def start_game_script():
-	settings.mainTimer = False
-	if settings.readyToStart:
-		settings.initStatus = True
+	def init_settings(self):
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
+		else:
+			self.emergency_on()
+
+	def emergency_on(self):
+		self.send_message('area1_W10;')
+		self.send_message('area1_TL11;')
+		self.send_message('area2_W20;')
+		self.send_message('area2_TL21;')
+		self.send_message('area3_W30;')
+		self.send_message('area3_TL31;')
+		self.send_message('area4_W40;')
+		self.send_message('area4_TL41;')
+		self.send_message('hallway1_WK10;')
+		self.send_message('hallway1_TLK11;')
+		self.send_message('hallway2_WK20;')
+		self.send_message('hallway2_TLK21;')
+
+	def reset_out(self, message):
+		if settings.outs[message]:
+			self.send_message(f'{message}1;')
+		else:
+			self.send_message(f'{message}0;')
+
+class Game:
+	def __init__(self) -> None:
+		data = {}
+		with open('data.txt') as json_file:
+			data = json.load(json_file)
+		settings.time = data['time']
+		self.set_main_time()
+		self.set_stage_time()
+		settings.numberOfStage = data['scripts_map'][0]['numberOfStage']
+		settings.scriptsMap = data['scripts_map'][0]['id']
+
+		self.gs = GameServer()
+		threading.Thread(target=self.gs.start_server, daemon=True).start()
+
+	def set_main_time(self):
+		settings.mainTime = settings.time[0]['mainTime']
+		settings.addedTime = 0
+	def set_stage_time(self):
+		settings.stageTime = settings.time[0]['t5']
+
+	def reset_out(self, message):
+		self.gs.reset_out(message)
+
+	def emergency_on(self):
+		self.gs.emergency_on()
+	def emergency_off(self):
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
+
+	def check_timers(self):
+		if settings.mainTimer:
+			if self.check_time(settings.startMainTime):
+				if settings.gameStatus:
+					self.stop_game_script()
+				else:
+					self.start_game_script()
+		if settings.stageTimer1:
+			if self.check_time(settings.startStageTime1):
+				self.start_stage_script()
+		if settings.stageTimer0:
+			if self.check_time(settings.startStageTime0):
+				self.stop_stage_script()
+		if settings.soundTimer:
+			if self.check_time(settings.startSoundTime):
+				self.sound_script()
+		if settings.emergencyTimer:
+			if self.check_time(settings.startEmergencyTime):
+				self.emergency_script()
+
+	def check_time(self, timer):
+		return time.time() - timer >= 2 and time.time() - timer < 4
+
+	def start_game_script(self):
+		settings.mainTimer = False
+		if settings.readyToStart:
+			settings.initStatus = True
+			settings.event = True
+		elif settings.initStatus:
+			settings.gameStatus = True
+			settings.event = True
+
+	def stop_game_script(self):
+		settings.mainTimer = False
+		settings.readyToStart = False
+		settings.initStatus = False
+		settings.gameStatus = False
 		settings.event = True
-	elif settings.initStatus:
-		settings.gameStatus = True
-		settings.event = True
 
-def stop_game_script():
-	settings.mainTimer = False
-	settings.readyToStart = False
-	settings.initStatus = False
-	settings.gameStatus = False
-	settings.event = True
+	def start_stage_script(self):
+		settings.stageTimer1 = False
+		if not settings.stageStatus and settings.gameStatus:
+			settings.startStageEvent = True
 
-def start_stage_script():
-	settings.stageTimer1 = False
-	if not settings.stageStatus and settings.gameStatus:
-		settings.startStageEvent = True
+	def stop_stage_script(self):
+		settings.stageTimer0 = False
+		if settings.stageStatus and settings.gameStatus:
+			settings.stopStageEvent = True
 
-def stop_stage_script():
-	settings.stageTimer0 = False
-	if settings.stageStatus and settings.gameStatus:
-		settings.stopStageEvent = True
+	def sound_script(self):
+		settings.soundTimer = False
+		if settings.volume:
+			settings.volume = 0
+		else:
+			settings.volume = 100
+		settings.volumeEvent = True
 
-def sound_script():
-	settings.soundTimer = False
-	if settings.volume:
-		settings.volume = 0
-	else:
-		settings.volume = 100
-	settings.volumeEvent = True
+	def emergency_script(self):
+		settings.emergencyTimer = False
+		settings.emergencyEvent = True
 
-def emergency_script():
-	settings.emergencyTimer = False
-	settings.emergencyEvent = True
+	def check_to_start(self):
+		for status in settings.settingsToStart:
+			if not settings.settingsToStart[status]:
+				settings.readyToStart = False
+				return settings.readyToStart
+		if not settings.gameStatus and not settings.initStatus:
+			settings.readyToStart = True
+		return settings.readyToStart
 
-def check_to_start():
-	for status in settings.settingsToStart:
-		if not settings.settingsToStart[status]:
-			settings.readyToStart = False
-			return settings.readyToStart
-	if not settings.gameStatus and not settings.initStatus:
-		settings.readyToStart = True
-	return settings.readyToStart
+	def change_volume(self):
+		self.gs.send_message(f'volume{int(settings.volume)};')
 
-def change_volume():
-	gs.send_message(f'volume{int(settings.volume)};')
+	def play_music(self, music, type_ = 'track'):
+		music = f"{type_}/{music}"
+		self.gs.send_message(f'play{music};')
 
-def play_music(music):
-	gs.send_message(f'play{music};')
+	def pause_music(self, music, type_ = 'track'):
+		music = f"{type_}/{music}"
+		self.gs.send_message(f'pause{music};')
 
-def pause_music(music):
-	gs.send_message(f'pause{music};')
+	def stop_music(self, music, type_ = 'track'):
+		music = f"{type_}/{music}"
+		self.gs.send_message(f'stop{music};')
 
-def stop_music(music):
-	gs.send_message(f'stop{music};')
+	def play_four_min(self):
+		self.play_music(12)
 
-def send_music(music, tm):
-	play_music(music)
-	time.sleep(tm)
-	stop_music(music)
+	def stop_fon_track(self):
+		self.stop_music(18)
 
-def end_stage_music_event():
-	threading.Thread(target = end_stage_music, daemon = True).start()
+	def end_stage_music_event(self):
+		threading.Thread(target = self.end_stage_music, daemon = True).start()
 
-def end_game_music_event():
-	threading.Thread(target = end_game_music, daemon = True).start()
+	def end_game_music_event(self):
+		threading.Thread(target = self.end_game_music, daemon = True).start()
 
-def end_game_music():
-	print('stop game')
-	settings.currentStage = 0
-	red = settings.getCount('red')
-	blue = settings.getCount('blue')
-	print(f'red {red}')
-	print(f'blue {blue}')
-	send_music(3, 4)
-	send_music(red, 1)
-	send_music(blue, 1)
-	if red > blue:
-		send_music(4, 2)
-	elif red < blue:
-		send_music(5, 2)
-	send_music(6, 4)
+	def end_game_music(self):
+		settings.currentStage = 0
+		red = settings.getCount('red')
+		blue = settings.getCount('blue')
+		time.sleep(3)
+		self.play_music(3)
+		time.sleep(4.5)
+		self.play_music(red, type_ = 'up')
+		time.sleep(1.5)
+		self.play_music(blue, type_ = 'down')
+		time.sleep(1.5)
+		settings.counters['mainСounterRed'] = 0
+		settings.counters['mainСounterBlue'] = 0
+		if red > blue:
+			self.play_music(4)
+		elif red < blue:
+			self.play_music(5)
+		time.sleep(3)
+		self.play_music(6)
 
-def end_stage_music():
-	send_music(19, 3)
-
-	if settings.check_end():
-		end_game_music()
-	elif not settings.currentStage%2: #если прошел 1 подэтап
-		send_music(20, 2)
-	else:
-		#проверка следующего этапа
-		if 'Death match' in settings.getNextStageName():
+	def end_stage_music(self):
+		self.stop_fon_track()
+		self.play_music(13)
+		time.sleep(3)
+		if settings.check_end():
 			pass
-		elif 'Контрольная точка' in settings.getNextStageName() or\
-		'Штурм' in settings.getNextStageName():
-			send_music(21, 4)
-		elif 'Бомба' in settings.getNextStageName():
-			send_music(22, 5)
+		elif not settings.currentStage%2: #если прошел 1 подэтап
+			self.play_music(14)
+			time.sleep(4)
+		else:
+			#проверка следующего этапа
+			stage_name = settings.getNextStageName()
+			if 'Death match' in stage_name:
+				pass
+			elif 'Контрольная точка' in stage_name or\
+			'Штурм' in stage_name:
+				self.play_music(15)
+			elif 'Бомба' in stage_name:
+				self.play_music(16)
 
 
-def init_settings():
-	settings.outs = {
-	'tableButton': True,
-	'ARed': True,
-	'ABlue': True,
-	'BRed': True,
-	'BBlue': True,
-	'AdminLight': True,
-	'area1_W1': False,
-	'area1_TL1': True,
-	'area2_W2': False,
-	'area2_TL2': True,
-	'area3_W3': False,
-	'area3_TL3': True,
-	'area4_W4': False,
-	'area4_TL4': True,
-	'hallway1_WK1': False,
-	'hallway1_TLK1': True,
-	'hallway2_WK2': False,
-	'hallway2_TLK2': True,
-	'give_LK1': True,
-	'medicBag_A': False,
-	'medicBag_B': False
-}
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
+	def init_settings(self):
+		settings.outs = {
+		'tableButton': settings.HIGHT,
+		'ARed': settings.HIGHT,
+		'ABlue': settings.HIGHT,
+		'BRed': settings.HIGHT,
+		'BBlue': settings.HIGHT,
+		'AdminLight': settings.HIGHT,
+		'area1_W1': settings.LOW,
+		'area1_TL1': settings.HIGHT,
+		'area2_W2': settings.LOW,
+		'area2_TL2': settings.HIGHT,
+		'area3_W3': settings.LOW,
+		'area3_TL3': settings.HIGHT,
+		'area4_W4': settings.LOW,
+		'area4_TL4': settings.HIGHT,
+		'hallway1_WK1': settings.LOW,
+		'hallway1_TLK1': settings.HIGHT,
+		'hallway2_WK2': settings.LOW,
+		'hallway2_TLK2': settings.HIGHT,
+		'give_LK1': settings.HIGHT,
+		'medicBag_A': settings.LOW,
+		'medicBag_B': settings.LOW
+	}
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
 
-def init_game():
-	settings.outs['hallway1_WK1'] = True
-	settings.outs['give_LK1'] = False
-	settings.outs['AdminLight'] = False
-
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
-
-def start_game():
-	settings.outs['tableButton'] = False
-	settings.outs['hallway1_WK1'] = False
-	settings.outs['hallway1_WK1'] = True
-	settings.outs['AdminLight'] = True
-
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
-
-def stop_game():
-	init_settings()
-
-def init_stage():
-	settings.outs['area1_W1'] = True
-	settings.outs['area3_W3'] = True
-	if not settings.currentStage%2:
-		settings.outs['ARed'] = False
-		settings.outs['BBlue'] = False
-	else:
-		settings.outs['BRed'] = False
-		settings.outs['ABlue'] = False
-
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
-
-def start_stage():
-	if not settings.currentStage%2:
-		settings.outs['ARed'] = True
-		settings.outs['BBlue'] = True
-	else:
-		settings.outs['BRed'] = True
-		settings.outs['ABlue'] = True
-	if not settings.wowEffects:
-		settings.outs['area1_W1'] = False
-		settings.outs['area3_W3'] = False
-	else:
-		settings.outs['area1_W1'] = True
-		settings.outs['area1_TL1'] = False
-		settings.outs['area2_W2'] = True
-		settings.outs['area2_TL2'] = False
-		settings.outs['area3_W3'] = True
-		settings.outs['area3_TL3'] = False
-		settings.outs['area4_W4'] = True
-		settings.outs['area4_TL4'] = False
-		settings.outs['hallway1_WK1'] = True
-		settings.outs['hallway1_TLK1'] = False
-		settings.outs['hallway2_WK2'] = True
-		settings.outs['hallway2_TLK2'] = False
-		settings.outs['give_LK1'] = True
-
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
-
-def stop_stage():
-	if settings.wowEffects:
-		settings.outs['area1_W1'] = False
-		settings.outs['area1_TL1'] = True
-		settings.outs['area2_W2'] = False
-		settings.outs['area2_TL2'] = True
-		settings.outs['area3_W3'] = False
-		settings.outs['area3_TL3'] = True
-		settings.outs['area4_W4'] = False
-		settings.outs['area4_TL4'] = True
-		settings.outs['hallway1_WK1'] = False
-		settings.outs['hallway1_TLK1'] = True
-		settings.outs['hallway2_WK2'] = False
-		settings.outs['hallway2_TLK2'] = True
-		settings.outs['give_LK1'] = False
+	def init_game(self):
+		settings.outs['hallway1_WK1'] = settings.HIGHT
+		settings.outs['give_LK1'] = settings.LOW
+		settings.outs['AdminLight'] = settings.LOW
+		self.play_music(1)
 
 		if not settings.emergencyStatus:
 			for out in settings.outs:
-				reset_out(out)
+				self.reset_out(out)
 
-def emergency_on():
-	gs.send_message('area1_W10;')
-	gs.send_message('area1_TL11;')
-	gs.send_message('area2_W20;')
-	gs.send_message('area2_TL21;')
-	gs.send_message('area3_W30;')
-	gs.send_message('area3_TL31;')
-	gs.send_message('area4_W40;')
-	gs.send_message('area4_TL41;')
-	gs.send_message('hallway1_WK10;')
-	gs.send_message('hallway1_TLK11;')
-	gs.send_message('hallway2_WK20;')
-	gs.send_message('hallway2_TLK21;')
+	def start_game(self):
+		settings.outs['tableButton'] = settings.LOW
+		settings.outs['hallway1_WK1'] = settings.LOW
+		settings.outs['give_LK1'] = settings.HIGHT
+		#settings.outs['AdminLight'] = settings.HIGHT
+		self.play_music(2)
 
-def emergency_off():
-	if not settings.emergencyStatus:
-		for out in settings.outs:
-			reset_out(out)
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
 
-def reset_out(message):
-	if settings.outs[message]:
-		gs.send_message(f'{message}1;')
-	else:
-		gs.send_message(f'{message}0;')
+	def stop_game(self):
+		self.stop_fon_track()
+		self.init_settings()
+
+	def init_stage(self):
+		settings.outs['area1_W1'] = settings.HIGHT
+		settings.outs['area3_W3'] = settings.HIGHT
+		if not settings.currentStage%2:
+			settings.outs['ARed'] = settings.LOW
+			settings.outs['BBlue'] = settings.LOW
+		else:
+			settings.outs['BRed'] = settings.LOW
+			settings.outs['ABlue'] = settings.LOW
+		self.play_music(17)
+
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
+
+		time.sleep(5.5)
+		stage_name = settings.getStageName()
+		if stage_name in "Death match +":
+			self.play_music(7)
+			time.sleep(8)
+		elif stage_name in "Контрольная точка +":
+			self.play_music(8)
+			time.sleep(6)
+		elif stage_name in "Штурм +":
+			self.play_music(9)
+			time.sleep(6)
+		elif stage_name in "Бомба +":
+			self.play_music(10)
+			time.sleep(6)
+		else:#if stage_name in "Без сценария +":
+			self.play_music(11)
+			time.sleep(5)
+
+	def start_stage(self):
+		print(f'WOWWOWOWOW {settings.wowEffects}')
+		self.init_stage()
+		self.play_music(18)
+		if not settings.currentStage%2:
+			settings.outs['ARed'] = settings.HIGHT
+			settings.outs['BBlue'] = settings.HIGHT
+		else:
+			settings.outs['BRed'] = settings.HIGHT
+			settings.outs['ABlue'] = settings.HIGHT
+		if not settings.wowEffects:
+			settings.outs['area1_W1'] = settings.LOW
+			settings.outs['area3_W3'] = settings.LOW
+		else:
+			settings.outs['area1_W1'] = settings.HIGHT
+			settings.outs['area1_TL1'] = settings.LOW
+			settings.outs['area2_W2'] = settings.HIGHT
+			settings.outs['area2_TL2'] = settings.LOW
+			settings.outs['area3_W3'] = settings.HIGHT
+			settings.outs['area3_TL3'] = settings.LOW
+			settings.outs['area4_W4'] = settings.HIGHT
+			settings.outs['area4_TL4'] = settings.LOW
+			settings.outs['hallway1_WK1'] = settings.HIGHT
+			settings.outs['hallway1_TLK1'] = settings.LOW
+			settings.outs['hallway2_WK2'] = settings.HIGHT
+			settings.outs['hallway2_TLK2'] = settings.LOW
+			settings.outs['give_LK1'] = settings.HIGHT
+
+		if not settings.emergencyStatus:
+			for out in settings.outs:
+				self.reset_out(out)
+
+	def stop_stage(self):
+		if settings.wowEffects:
+			self.play_music(17)
+			settings.outs['area1_W1'] = settings.LOW
+			settings.outs['area1_TL1'] = settings.HIGHT
+			settings.outs['area2_W2'] = settings.LOW
+			settings.outs['area2_TL2'] = settings.HIGHT
+			settings.outs['area3_W3'] = settings.LOW
+			settings.outs['area3_TL3'] = settings.HIGHT
+			settings.outs['area4_W4'] = settings.LOW
+			settings.outs['area4_TL4'] = settings.HIGHT
+			settings.outs['hallway1_WK1'] = settings.LOW
+			settings.outs['hallway1_TLK1'] = settings.HIGHT
+			settings.outs['hallway2_WK2'] = settings.LOW
+			settings.outs['hallway2_TLK2'] = settings.HIGHT
+			settings.outs['give_LK1'] = settings.LOW
+
+			if not settings.emergencyStatus:
+				for out in settings.outs:
+					self.reset_out(out)

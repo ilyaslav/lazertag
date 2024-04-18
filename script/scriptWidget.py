@@ -7,11 +7,11 @@ class ScriptWidget(QtWidgets.QWidget):
         self.is_selected2 = False
 
     def startEvent(self):
-    	pass
+        pass
     def stopEvent(self):
-    	pass
+        pass
     def set_time(self):
-    	pass
+        pass
     def exclude_disabling(self):
         pass
     def check_last_stage(self):

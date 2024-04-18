@@ -6,7 +6,7 @@ class Client:
 		self.server = []
 		self.messages = []
 		self.HOST = self.get_local_ip()
-		self.PORT = 1112
+		self.PORT = 1113
 
 	def get_local_ip(self):
 		s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -53,7 +53,7 @@ class Client:
 				if self.server:
 					self.server.pop()
 				continue
-					
+
 			except OSError as e:
 				print(e)
 				if i == 254:

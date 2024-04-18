@@ -31,7 +31,7 @@ class MainMenuWidget(QtWidgets.QWidget):
         font.setPointSize(12)
         self.frame_3.setFont(font)
         self.setStyleSheet("QFrame{\n"
-"   background-color: rgba(255, 255, 255, 0);\n"    
+"   background-color: rgba(255, 255, 255, 0);\n"
 "}\n")
         self.frame_3.setStyleSheet("QPushButton\n"
 "{\n"
@@ -1060,7 +1060,7 @@ class MainMenuWidget(QtWidgets.QWidget):
         self.gridLayout.addWidget(self.frame_29, 0, 0, 1, 1)
 
         self.read_json()
-        self.retranslateUi(self)
+        self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
         self.disabled_scripts()
         self.disabled_updown_buttons()
@@ -1194,8 +1194,8 @@ class MainMenuWidget(QtWidgets.QWidget):
         self.script3_box.setDisabled(True)
     def disabled_script4(self):
         self.script4_box.setDisabled(True)
-    def disabled_script4(self):
-        self.script4_box.setDisabled(True)
+    def disabled_script5(self):
+        self.script5_box.setDisabled(True)
 
     def disabled_scripts(self):
         self.script1_box.setDisabled(True)
@@ -1282,6 +1282,10 @@ class MainMenuWidget(QtWidgets.QWidget):
             f" {settings.get_minutes(settings.mainTime)} :" +\
             f" {settings.get_seconds(settings.mainTime)}")
 
+    def reset_counters(self):
+        self.red_count_label.setText('0')
+        self.blue_count_label.setText('0')
+
     def add_main_score_red(self):
         settings.counters['mainСounterRed']+=1
         self.red_count_label.setText(str(settings.counters['mainСounterRed']))
@@ -1289,13 +1293,15 @@ class MainMenuWidget(QtWidgets.QWidget):
         settings.counters['mainСounterBlue']+=1
         self.blue_count_label.setText(str(settings.counters['mainСounterBlue']))
     def reduce_main_score_red(self):
-        settings.counters['mainСounterRed']-=1
-        self.red_count_label.setText(str(settings.counters['mainСounterRed']))
+        if settings.counters['mainСounterRed']:
+            settings.counters['mainСounterRed']-=1
+            self.red_count_label.setText(str(settings.counters['mainСounterRed']))
     def reduce_main_score_blue(self):
-        settings.counters['mainСounterBlue']-=1
-        self.blue_count_label.setText(str(settings.counters['mainСounterBlue']))
+        if settings.counters['mainСounterBlue']:
+            settings.counters['mainСounterBlue']-=1
+            self.blue_count_label.setText(str(settings.counters['mainСounterBlue']))
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("self", "self"))
         self.label.setText(_translate("self", "Сценарная карта:"))

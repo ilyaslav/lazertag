@@ -7,16 +7,27 @@ from Ui_MainWindow import Ui_MainWindow
 from noScriptWidget import NoScriptWidget
 from MainMenuWidget import MainMenuWidget
 from TabWidget import TabWidget
+import threading
 
-import game
+from threadClass import ThreadClass
+from game import Game
 import settings
 
 class MyApp(Ui_MainWindow):
 	def setupUi(self, MainWindow):
 		super(MyApp, self).setupUi(MainWindow)
+		self.game = Game()
 		self.blink_timer = QTimer()
 		self.main_timer = QTimer()
 		self.start_worker()
+
+	def start_worker(self):
+		self.thread = ThreadClass(parent=None)
+		self.thread.start()
+		self.thread.any_signal.connect(self.main_loop)
+
+	def stop_worker(self):
+		self.thread.stop()
 
 	def main_loop(self):
 		self.change_game_status()
@@ -26,13 +37,19 @@ class MyApp(Ui_MainWindow):
 		self.restart_stage()
 		self.exclude_stage()
 		self.include_stage()
-		game.check_timers()
+		self.game.check_timers()
+		self.change_volume()
+
+	def change_volume(self):
+		if settings.volumeEvent:
+			settings.volumeEvent = False
+			self.game.change_volume()
 
 	def change_game_status(self):
 		if not settings.readyToStart and not settings.initStatus\
 		and not settings.gameStatus and settings.event:
 			self.stop_game()
-		elif not settings.readyToStart and game.check_to_start():
+		elif not settings.readyToStart and self.game.check_to_start():
 			self.mainMenuWidget.yellow_start_button()
 		elif settings.initStatus and settings.readyToStart and settings.event:
 			self.init_game()
@@ -46,11 +63,13 @@ class MyApp(Ui_MainWindow):
 				self.start_stage(widget)
 				self.disable_stage()
 			elif settings.stopStageEvent and settings.stageStatus:
-				game.end_stage_music_event()
+				self.game.end_stage_music_event()
 				self.stop_stage(widget)
 
 	def find_stage(self):
 		if settings.currentStage == 0:
+			settings.stopStageEvent = False
+			settings.stageStatus = False
 			return None
 		elif settings.currentStage == 1 or settings.currentStage == 2:
 			return self.script1_widget
@@ -119,6 +138,13 @@ class MyApp(Ui_MainWindow):
 			widget = self.find_stage()
 			if widget:
 				self.check_last_stage(widget)
+			if settings.currentStage == 0:
+				settings.readyToStart = False
+				settings.initStatus = False
+				settings.gameStatus = False
+				settings.event = True
+				settings.stopStageEvent = True
+				settings.stageStatus = True
 			if settings.currentStage == 1:
 				self.script1_widget.is_selected1 = True
 				self.script1_widget.yellow_stage_label1()
@@ -204,10 +230,10 @@ class MyApp(Ui_MainWindow):
 			settings.emergencyStatus = not settings.emergencyStatus
 			if settings.emergencyStatus:
 				self.mainMenuWidget.emergency_button_off()
-				game.emergency_on()
+				self.game.emergency_on()
 			else:
 				self.mainMenuWidget.emergency_button_on()
-				game.emergency_off()
+				self.game.emergency_off()
 			print('emergencyStatus =', settings.emergencyStatus)
 			settings.emergencyEvent = False
 
@@ -220,7 +246,7 @@ class MyApp(Ui_MainWindow):
 		self.start_main_timer()
 		settings.readyToStart = False
 		settings.event = False
-		game.init_game()
+		self.game.init_game()
 
 	def start_game(self):
 		self.stop_blink_timer()
@@ -228,18 +254,21 @@ class MyApp(Ui_MainWindow):
 		settings.changeStageEvent = True
 		settings.initStatus = False
 		settings.event = False
-		game.start_game()
+		self.game.start_game()
 
 	def stop_game(self):
-		game.end_game_music_event()
+		self.game.end_game_music_event()
 		self.stop_blink_timer()
 		self.stop_main_timer()
-		game.set_main_time()
-		game.set_stage_time()
+		self.game.set_main_time()
+		self.game.set_stage_time()
 		self.mainMenuWidget.set_main_time()
 		self.set_default()
 		settings.event = False
-		game.stop_game()
+		self.game.stop_game()
+		self.change_tab_color()
+		self.mainMenuWidget.reset_counters()
+		self.game.end_game_music_event()
 
 	def start_stage(self, widget):
 		widget.start_event()
@@ -249,7 +278,7 @@ class MyApp(Ui_MainWindow):
 		self.exclude_disabling()
 		settings.startStageEvent = False
 		settings.stageStatus = True
-		game.start_stage()
+		threading.Thread(target = self.game.start_stage, daemon = True).start()
 
 	def stop_stage(self, widget):
 		widget.stop_event()
@@ -259,7 +288,7 @@ class MyApp(Ui_MainWindow):
 		settings.stageStatus = False
 		settings.changeStageEvent = True
 		settings.stageTime = 600
-		game.stop_stage()
+		self.game.stop_stage()
 
 	def blink_button(self):
 		if not settings.outs['tableButton']:
@@ -267,7 +296,7 @@ class MyApp(Ui_MainWindow):
 		else:
 			self.mainMenuWidget.white_start_button()
 		settings.outs['tableButton'] = not settings.outs['tableButton']
-		game.reset_out('tableButton')
+		self.game.reset_out('tableButton')
 	def start_blink_timer(self):
 		self.blink_timer = QTimer()
 		self.blink_timer.timeout.connect(self.blink_button)
@@ -280,6 +309,12 @@ class MyApp(Ui_MainWindow):
 			settings.mainTime-=1
 			self.mainMenuWidget.set_main_time()
 		else:
+			settings.readyToStart = False
+			settings.initStatus = False
+			settings.gameStatus = False
+			settings.event = True
+			settings.stopStageEvent = True
+			settings.stageStatus = True
 			self.stop_main_timer()
 	def start_main_timer(self):
 		self.main_timer = QTimer()
@@ -291,6 +326,8 @@ class MyApp(Ui_MainWindow):
 	def stage_timer_event(self, widget):
 		if settings.stageTimer == 'decreasing':
 			if settings.stageTime:
+				if settings.stageTime == 240:
+					self.game.play_four_min()
 				settings.stageTime-=1
 				widget.set_time(settings.stageTime)
 			else:

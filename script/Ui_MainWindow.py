@@ -15,22 +15,7 @@ from noScriptWidget import NoScriptWidget
 from scriptWidget import ScriptWidget
 from MainMenuWidget import MainMenuWidget
 from TabWidget import TabWidget
-from time import sleep
 import settings
-
-
-class ThreadClass(QThread):
-        any_signal = QtCore.pyqtSignal(int)
-        def __init__(self, parent = None):
-                super(ThreadClass, self).__init__(parent)
-                self.is_running = True
-        def run(self):
-                while True:
-                        self.any_signal.emit(1)
-                        sleep(0.1)
-        def stop(self):
-                self.is_running = False
-                self.terminate()
 
 
 class Ui_MainWindow(object):
@@ -91,17 +76,6 @@ class Ui_MainWindow(object):
         self.add_script5_widget()
         self.connect_functions()
 
-    def start_worker(self):
-        self.thread = ThreadClass(parent=None)
-        self.thread.start()
-        self.thread.any_signal.connect(self.main_loop)
-
-    def stop_worker(self):
-        self.thread.stop()
-
-    def main_loop(self):
-        pass
-
     def add_main_menu(self):
         self.gridLayout_00 = QtWidgets.QGridLayout(self.main_tab)
         self.gridLayout_00.setObjectName("gridLayout_00")
@@ -152,7 +126,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.script5_box.currentTextChanged.connect(self.script5_box_event)
         self.mainMenuWidget.start_game_button.pressed.connect(self.start_game_button_press)
         self.mainMenuWidget.stop_game_button.pressed.connect(self.stop_game_button_press)
-        self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume)
+        self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume_level)
 
     def set_notReady(self):
         settings.readyToStart = False
@@ -332,7 +306,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.scripts_map.setCurrentText('Сценарная карта не выбрана')
         self.mainMenuWidget.red_timer()
 
-    def change_volume(self):
+    def change_volume_level(self):
         if settings.volume != self.mainMenuWidget.volume_level.value():
             settings.volume = self.mainMenuWidget.volume_level.value()
             settings.volumeEvent = True

@@ -82,7 +82,7 @@ class GameClient(Client):
 			gh.BBlue1()
 		elif mes == 'AdminLight1':
 			gh.AdminLight1()
-		
+
 		if mes == 'tableButton0':
 			gh.tableButton0()
 		elif mes == 'ARed0':
@@ -97,11 +97,11 @@ class GameClient(Client):
 			gh.AdminLight0()
 
 		elif mes[:4] == 'play':
-			gm.play(int(mes[4:]))
+			gm.play(mes[4:])
 		elif mes[:4] == 'stop':
-			gm.stop(int(mes[4:]))
+			gm.stop(mes[4:])
 		elif mes[:5] == 'pause':
-			gm.pause(int(mes[5:]))
+			gm.pause(mes[5:])
 		elif mes[:6] == 'volume':
 			gm.change_volume(int(mes[6:]))
 

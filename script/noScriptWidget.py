@@ -20,7 +20,7 @@ class NoScriptWidget(ScriptWidget):
         self.gridLayout.setObjectName("gridLayout")
         self.widget_3 = QtWidgets.QWidget(self)
         self.setStyleSheet("QFrame{\n"
-"   background-color: rgba(255, 255, 255, 0);\n"    
+"   background-color: rgba(255, 255, 255, 0);\n"
 "}\n")
         self.widget_3.setStyleSheet("QPushButton\n"
 "{\n"
@@ -773,7 +773,7 @@ class NoScriptWidget(ScriptWidget):
         self.start_stage2_button.pressed.connect(self.bt_start2_press)
         self.stop_stage1_button.pressed.connect(self.bt_stop1_press)
         self.stop_stage2_button.pressed.connect(self.bt_stop2_press)
-        
+
 
     def add_restart_button1(self):
         self.horizontalLayout_restart1.removeWidget(self.result_stage1_widget)
@@ -1077,6 +1077,7 @@ class NoScriptWidget(ScriptWidget):
 
     def start_event(self):
         if self.is_selected1:
+            self.wow_effects1_check()
             self.stage1_time_check()
             self.check_stage1_time.setDisabled(True)
             self.exclude_stage1.setDisabled(True)
@@ -1084,6 +1085,7 @@ class NoScriptWidget(ScriptWidget):
             self.green_stage_label1()
             self.green_start_button1()
         elif self.is_selected2:
+            self.wow_effects2_check()
             self.stage2_time_check()
             self.check_stage2_time.setDisabled(True)
             self.exclude_stage2.setDisabled(True)
@@ -1167,7 +1169,7 @@ class NoScriptWidget(ScriptWidget):
             self.add_result_label1()
             self.full_enabled_event1()
             self.stage1_time_check()
-        
+
     def bt_restart2_press(self):
         if not settings.stageStatus:
             self.is_selected2 = True

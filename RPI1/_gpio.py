@@ -255,4 +255,3 @@ class PiHandler():
 		pass
 	def bomb_planted0(self):
 		pass
-
