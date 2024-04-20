@@ -5,6 +5,23 @@ class PiHandler():
 	def __init__(self):
 		self.initGPIO()
 		self.inputs = {}
+		self.outs = {
+			'r2o7': 7,
+			'r2o8': 11,
+			'r2o9': 13,
+			'r2o10': 15,
+			'r2o11': 19,
+			'r2o12': 21,
+			'r2o13': 23,
+			'r2o14': 29,
+			'r2o15': 31,
+			'r2o16': 33,
+			'r2o17': 35,
+			'r2o18': 37,
+			'r2o19': 8,
+			'r2o20': 10,
+			'r2o21': 12,
+		}
 
 	@staticmethod
 	def get_inputs():
@@ -37,64 +54,8 @@ class PiHandler():
 		GPIO.setup(35, GPIO.OUT, initial=GPIO.LOW)
 		GPIO.setup(37, GPIO.OUT, initial=GPIO.HIGH)
 
-
-	def area1_W11(self):
-		GPIO.output(7, GPIO.HIGH)
-	def area1_W10(self):
-		GPIO.output(7, GPIO.LOW)
-	def area1_TL11(self):
-		GPIO.output(11, GPIO.HIGH)
-	def area1_TL10(self):
-		GPIO.output(11, GPIO.LOW)
-	def area2_W21(self):
-		GPIO.output(13, GPIO.HIGH)
-	def area2_W20(self):
-		GPIO.output(13, GPIO.LOW)
-	def area2_TL21(self):
-		GPIO.output(15, GPIO.HIGH)
-	def area2_TL20(self):
-		GPIO.output(15, GPIO.LOW)
-	def area3_W31(self):
-		GPIO.output(19, GPIO.HIGH)
-	def area3_W30(self):
-		GPIO.output(19, GPIO.LOW)
-	def area3_TL31(self):
-		GPIO.output(21, GPIO.HIGH)
-	def area3_TL30(self):
-		GPIO.output(21, GPIO.LOW)
-	def area4_W41(self):
-		GPIO.output(23, GPIO.HIGH)
-	def area4_W40(self):
-		GPIO.output(23, GPIO.LOW)
-	def area4_TL41(self):
-		GPIO.output(29, GPIO.HIGH)
-	def area4_TL40(self):
-		GPIO.output(29, GPIO.LOW)
-	def hallway1_WK11(self):
-		GPIO.output(31, GPIO.HIGH)
-	def hallway1_WK10(self):
-		GPIO.output(31, GPIO.LOW)
-	def hallway1_TLK11(self):
-		GPIO.output(33, GPIO.HIGH)
-	def hallway1_TLK10(self):
-		GPIO.output(33, GPIO.LOW)
-	def hallway2_WK21(self):
-		GPIO.output(35, GPIO.HIGH)
-	def hallway2_WK20(self):
-		GPIO.output(35, GPIO.LOW)
-	def hallway2_TLK21(self):
-		GPIO.output(37, GPIO.HIGH)
-	def hallway2_TLK20(self):
-		GPIO.output(37, GPIO.LOW)
-	def give_LK11(self):
-		GPIO.output(8, GPIO.HIGH)
-	def give_LK10(self):
-		GPIO.output(8, GPIO.LOW)
-	def medicBag_A1(self):
-		GPIO.output(10, GPIO.HIGH)
-	def medicBag_A0(self):
-		GPIO.output(10, GPIO.LOW)
-	def medicBag_B1(self):
-		GPIO.output(12, GPIO.HIGH)
-	def medicBag_B0(self):
-		GPIO.output(12, GPIO.LOW)
+	def reset_out(self, out, status):
+		if status:
+			GPIO.output(self.outs[out], GPIO.HIGH)
+		else:
+			GPIO.output(self.outs[out], GPIO.LOW)

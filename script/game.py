@@ -46,71 +46,71 @@ class GameServer(Server):
 	def message_handler(self, mes):
 		print(f'Принято сообщение: {mes}')
 		if mes == 'game_button1':
-			settings.inputs['game_button'] = settings.HIGHT
+			settings.inputs['r1i1'] = settings.HIGHT
 			start_main_timer()
 		elif mes == 'game_button0':
-			settings.inputs['game_button'] = settings.LOW
+			settings.inputs['r1i1'] = settings.LOW
 			stop_main_timer()
 		elif mes == 'start_stage1':
-			settings.inputs['start_stage'] = settings.HIGHT
+			settings.inputs['r1i2'] = settings.HIGHT
 			start_stage_timer1()
 		elif mes == 'start_stage0':
-			settings.inputs['start_stage'] = settings.LOW
+			settings.inputs['r1i2'] = settings.LOW
 			stop_stage_timer1()
 		if mes == 'stop_stage1':
-			settings.inputs['stop_stage'] = settings.HIGHT
+			settings.inputs['r1i3'] = settings.HIGHT
 			start_stage_timer0()
 		elif mes == 'stop_stage0':
-			settings.inputs['stop_stage'] = settings.LOW
+			settings.inputs['r1i3'] = settings.LOW
 			stop_stage_timer0()
 		if mes == 'sound_button1':
-			settings.inputs['sound_button'] = settings.HIGHT
+			settings.inputs['r1i4'] = settings.HIGHT
 			start_sound_timer()
 		elif mes == 'sound_button0':
-			settings.inputs['sound_button'] = settings.LOW
+			settings.inputs['r1i4'] = settings.LOW
 			stop_sound_timer()
 		if mes == 'light_button1':
-			settings.inputs['light_button'] = settings.HIGHT
+			settings.inputs['r1i5'] = settings.HIGHT
 			start_emergency_timer()
 		elif mes == 'light_button0':
-			settings.inputs['light_button'] = settings.LOW
+			settings.inputs['r1i5'] = settings.LOW
 			stop_emergency_timer()
 		if mes == 'signal_R1':
-			settings.inputs['signal_R'] = settings.HIGHT
+			settings.inputs['r1i6'] = settings.HIGHT
 		elif mes == 'signal_R0':
-			settings.inputs['signal_R'] = settings.LOW
+			settings.inputs['r1i6'] = settings.LOW
 		if mes == 'signal_G1':
-			settings.inputs['signal_G'] = settings.HIGHT
+			settings.inputs['r1i7'] = settings.HIGHT
 		elif mes == 'signal_G0':
-			settings.inputs['signal_G'] = settings.LOW
+			settings.inputs['r1i7'] = settings.LOW
 		if mes == 'signal_B1':
-			settings.inputs['signal_B'] = settings.HIGHT
+			settings.inputs['r1i8'] = settings.HIGHT
 		elif mes == 'signal_B0':
-			settings.inputs['signal_B'] = settings.LOW
+			settings.inputs['r1i8'] = settings.LOW
 		if mes == 'takeFlag_A1':
-			settings.inputs['takeFlag_A'] = settings.HIGHT
+			settings.inputs['r1i9'] = settings.HIGHT
 		elif mes == 'takeFlag_A0':
-			settings.inputs['takeFlag_A'] = settings.LOW
+			settings.inputs['r1i9'] = settings.LOW
 		if mes == 'takeFlag_B1':
-			settings.inputs['takeFlag_B'] = settings.HIGHT
+			settings.inputs['r1i10'] = settings.HIGHT
 		elif mes == 'takeFlag_B0':
-			settings.inputs['takeFlag_B'] = settings.LOW
+			settings.inputs['r1i10'] = settings.LOW
 		if mes == 'giveFlag_A1':
-			settings.inputs['giveFlag_A'] = settings.HIGHT
+			settings.inputs['r1i11'] = settings.HIGHT
 		elif mes == 'giveFlag_A0':
-			settings.inputs['giveFlag_A'] = settings.LOW
+			settings.inputs['r1i11'] = settings.LOW
 		if mes == 'giveFlag_B1':
-			settings.inputs['giveFlag_B'] = settings.HIGHT
+			settings.inputs['r1i12'] = settings.HIGHT
 		elif mes == 'giveFlag_B0':
-			settings.inputs['giveFlag_B'] = settings.LOW
+			settings.inputs['r1i12'] = settings.LOW
 		if mes == 'bomb_activated1':
-			settings.inputs['bomb_activated'] = settings.HIGHT
+			settings.inputs['r1i13'] = settings.HIGHT
 		elif mes == 'bomb_activated0':
-			settings.inputs['bomb_activated'] = settings.LOW
+			settings.inputs['r1i13'] = settings.LOW
 		if mes == 'bomb_planted1':
-			settings.inputs['bomb_planted'] = settings.HIGHT
+			settings.inputs['r1i14'] = settings.HIGHT
 		elif mes == 'bomb_planted0':
-			settings.inputs['bomb_planted'] = settings.LOW
+			settings.inputs['r1i14'] = settings.LOW
 
 	def init_settings(self):
 		if not settings.emergencyStatus:
@@ -160,7 +160,9 @@ class Game:
 		settings.stageTime = settings.time[0]['t5']
 
 	def reset_out(self, message):
-		self.gs.reset_out(message)
+		if message not in settings.static_outs:
+			settings.diagnosticEvent = True
+			self.gs.reset_out(message)
 
 	def emergency_on(self):
 		self.gs.emergency_on()
@@ -309,36 +311,36 @@ class Game:
 
 	def init_settings(self):
 		settings.outs = {
-		'tableButton': settings.HIGHT,
-		'ARed': settings.HIGHT,
-		'ABlue': settings.HIGHT,
-		'BRed': settings.HIGHT,
-		'BBlue': settings.HIGHT,
-		'AdminLight': settings.HIGHT,
-		'area1_W1': settings.LOW,
-		'area1_TL1': settings.HIGHT,
-		'area2_W2': settings.LOW,
-		'area2_TL2': settings.HIGHT,
-		'area3_W3': settings.LOW,
-		'area3_TL3': settings.HIGHT,
-		'area4_W4': settings.LOW,
-		'area4_TL4': settings.HIGHT,
-		'hallway1_WK1': settings.LOW,
-		'hallway1_TLK1': settings.HIGHT,
-		'hallway2_WK2': settings.LOW,
-		'hallway2_TLK2': settings.HIGHT,
-		'give_LK1': settings.HIGHT,
-		'medicBag_A': settings.LOW,
-		'medicBag_B': settings.LOW
+		'r1o1': settings.HIGHT,
+		'r1o2': settings.HIGHT,
+		'r1o3': settings.HIGHT,
+		'r1o4': settings.HIGHT,
+		'r1o5': settings.HIGHT,
+		'r1o6': settings.HIGHT,
+		'r2o7': settings.LOW,
+		'r2o8': settings.HIGHT,
+		'r2o9': settings.LOW,
+		'r2o10': settings.HIGHT,
+		'r2o11': settings.LOW,
+		'r2o12': settings.HIGHT,
+		'r2o13': settings.LOW,
+		'r2o14': settings.HIGHT,
+		'r2o15': settings.LOW,
+		'r2o16': settings.HIGHT,
+		'r2o17': settings.LOW,
+		'r2o18': settings.HIGHT,
+		'r2o19': settings.HIGHT,
+		'r2o20': settings.LOW,
+		'r2o21': settings.LOW
 	}
 		if not settings.emergencyStatus:
 			for out in settings.outs:
 				self.reset_out(out)
 
 	def init_game(self):
-		settings.outs['hallway1_WK1'] = settings.HIGHT
-		settings.outs['give_LK1'] = settings.LOW
-		settings.outs['AdminLight'] = settings.LOW
+		settings.outs['r2o15'] = settings.HIGHT
+		settings.outs['r2o19'] = settings.LOW
+		settings.outs['r1o6'] = settings.LOW
 		self.play_music(1)
 
 		if not settings.emergencyStatus:
@@ -346,9 +348,9 @@ class Game:
 				self.reset_out(out)
 
 	def start_game(self):
-		settings.outs['tableButton'] = settings.LOW
-		settings.outs['hallway1_WK1'] = settings.LOW
-		settings.outs['give_LK1'] = settings.HIGHT
+		settings.outs['r1o1'] = settings.LOW
+		settings.outs['r2o15'] = settings.LOW
+		settings.outs['r2o19'] = settings.HIGHT
 		#settings.outs['AdminLight'] = settings.HIGHT
 		self.play_music(2)
 
@@ -361,14 +363,14 @@ class Game:
 		self.init_settings()
 
 	def init_stage(self):
-		settings.outs['area1_W1'] = settings.HIGHT
-		settings.outs['area3_W3'] = settings.HIGHT
-		if not settings.currentStage%2:
-			settings.outs['ARed'] = settings.LOW
-			settings.outs['BBlue'] = settings.LOW
+		settings.outs['r2o7'] = settings.HIGHT
+		settings.outs['r2o11'] = settings.HIGHT
+		if settings.currentStage%2:
+			settings.outs['r1o2'] = settings.LOW
+			settings.outs['r1o5'] = settings.LOW
 		else:
-			settings.outs['BRed'] = settings.LOW
-			settings.outs['ABlue'] = settings.LOW
+			settings.outs['r1o4'] = settings.LOW
+			settings.outs['r1o3'] = settings.LOW
 		self.play_music(17)
 
 		if not settings.emergencyStatus:
@@ -394,32 +396,31 @@ class Game:
 			time.sleep(5)
 
 	def start_stage(self):
-		print(f'WOWWOWOWOW {settings.wowEffects}')
 		self.init_stage()
 		self.play_music(18)
-		if not settings.currentStage%2:
-			settings.outs['ARed'] = settings.HIGHT
-			settings.outs['BBlue'] = settings.HIGHT
+		if settings.currentStage%2:
+			settings.outs['r1o2'] = settings.HIGHT
+			settings.outs['r1o5'] = settings.HIGHT
 		else:
-			settings.outs['BRed'] = settings.HIGHT
-			settings.outs['ABlue'] = settings.HIGHT
+			settings.outs['r1o4'] = settings.HIGHT
+			settings.outs['r1o3'] = settings.HIGHT
 		if not settings.wowEffects:
-			settings.outs['area1_W1'] = settings.LOW
-			settings.outs['area3_W3'] = settings.LOW
+			settings.outs['r2o7'] = settings.LOW
+			settings.outs['r2o11'] = settings.LOW
 		else:
-			settings.outs['area1_W1'] = settings.HIGHT
-			settings.outs['area1_TL1'] = settings.LOW
-			settings.outs['area2_W2'] = settings.HIGHT
-			settings.outs['area2_TL2'] = settings.LOW
-			settings.outs['area3_W3'] = settings.HIGHT
-			settings.outs['area3_TL3'] = settings.LOW
-			settings.outs['area4_W4'] = settings.HIGHT
-			settings.outs['area4_TL4'] = settings.LOW
-			settings.outs['hallway1_WK1'] = settings.HIGHT
-			settings.outs['hallway1_TLK1'] = settings.LOW
-			settings.outs['hallway2_WK2'] = settings.HIGHT
-			settings.outs['hallway2_TLK2'] = settings.LOW
-			settings.outs['give_LK1'] = settings.HIGHT
+			settings.outs['r2o7'] = settings.HIGHT
+			settings.outs['r2o8'] = settings.LOW
+			settings.outs['r2o9'] = settings.HIGHT
+			settings.outs['r2o10'] = settings.LOW
+			settings.outs['r2o11'] = settings.HIGHT
+			settings.outs['r2o12'] = settings.LOW
+			settings.outs['r2o13'] = settings.HIGHT
+			settings.outs['r2o14'] = settings.LOW
+			settings.outs['r2o15'] = settings.HIGHT
+			settings.outs['r2o16'] = settings.LOW
+			settings.outs['r2o17'] = settings.HIGHT
+			settings.outs['r2o18'] = settings.LOW
+			settings.outs['r2o19'] = settings.HIGHT
 
 		if not settings.emergencyStatus:
 			for out in settings.outs:
@@ -428,19 +429,19 @@ class Game:
 	def stop_stage(self):
 		if settings.wowEffects:
 			self.play_music(17)
-			settings.outs['area1_W1'] = settings.LOW
-			settings.outs['area1_TL1'] = settings.HIGHT
-			settings.outs['area2_W2'] = settings.LOW
-			settings.outs['area2_TL2'] = settings.HIGHT
-			settings.outs['area3_W3'] = settings.LOW
-			settings.outs['area3_TL3'] = settings.HIGHT
-			settings.outs['area4_W4'] = settings.LOW
-			settings.outs['area4_TL4'] = settings.HIGHT
-			settings.outs['hallway1_WK1'] = settings.LOW
-			settings.outs['hallway1_TLK1'] = settings.HIGHT
-			settings.outs['hallway2_WK2'] = settings.LOW
-			settings.outs['hallway2_TLK2'] = settings.HIGHT
-			settings.outs['give_LK1'] = settings.LOW
+			settings.outs['r2o7'] = settings.LOW
+			settings.outs['r2o8'] = settings.HIGHT
+			settings.outs['r2o9'] = settings.LOW
+			settings.outs['r2o10'] = settings.HIGHT
+			settings.outs['r2o11'] = settings.LOW
+			settings.outs['r2o12'] = settings.HIGHT
+			settings.outs['r2o13'] = settings.LOW
+			settings.outs['r2o14'] = settings.HIGHT
+			settings.outs['r2o15'] = settings.LOW
+			settings.outs['r2o16'] = settings.HIGHT
+			settings.outs['r2o17'] = settings.LOW
+			settings.outs['r2o18'] = settings.HIGHT
+			settings.outs['r2o19'] = settings.LOW
 
 			if not settings.emergencyStatus:
 				for out in settings.outs:

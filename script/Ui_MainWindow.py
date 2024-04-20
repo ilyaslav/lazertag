@@ -14,8 +14,10 @@ from PyQt5.QtWidgets import QMainWindow, QApplication
 from noScriptWidget import NoScriptWidget
 from scriptWidget import ScriptWidget
 from MainMenuWidget import MainMenuWidget
+from diagnosticWidget import DiagnosticWidget
 from TabWidget import TabWidget
 import settings
+import functools
 
 
 class Ui_MainWindow(object):
@@ -74,6 +76,7 @@ class Ui_MainWindow(object):
         self.add_script3_widget()
         self.add_script4_widget()
         self.add_script5_widget()
+        self.add_diagnostic()
         self.connect_functions()
 
     def add_main_menu(self):
@@ -106,6 +109,14 @@ class Ui_MainWindow(object):
         self.gridLayout_55.setObjectName("gridLayout_55")
         self.script5_widget = ScriptWidget(self.script5_tab)
         self.gridLayout_55.addWidget(self.script5_widget, 0, 0, 1, 1)
+    def add_diagnostic(self):
+        self.gridLayout_66 = QtWidgets.QGridLayout(self.diagnostics)
+        self.gridLayout_66.setObjectName("gridLayout_66")
+        self.diagnosticWidget = DiagnosticWidget(self.diagnostics)
+        self.gridLayout_66.addWidget(self.diagnosticWidget, 0, 0, 1, 1)
+
+    def bt_out_press(self, out):
+        pass
 
     def connect_functions(self):
         self.mainMenuWidget.emergency_lighting_button.pressed.connect(self.mainMenuWidget.emergency_button_press)
@@ -127,6 +138,9 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.start_game_button.pressed.connect(self.start_game_button_press)
         self.mainMenuWidget.stop_game_button.pressed.connect(self.stop_game_button_press)
         self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume_level)
+        self.diagnosticWidget.diagnostic_state.pressed.connect(self.diagnosticWidget.bt_diagnostic_press)
+        for out in self.diagnosticWidget.outs:
+            self.diagnosticWidget.outs[out].pressed.connect(functools.partial(self.bt_out_press, out))
 
     def set_notReady(self):
         settings.readyToStart = False

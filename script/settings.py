@@ -72,6 +72,7 @@ changeStageEvent = False
 wowEffects = False
 stageTimer = 'increasing' #'decreasing'
 
+diagnosticEvent = False
 
 settingsToStart = {
 	'scriptsMap': False,
@@ -169,45 +170,45 @@ counters = {
 
 
 outs = {
-	'tableButton': HIGHT,
-	'ARed': HIGHT,
-	'ABlue': HIGHT,
-	'BRed': HIGHT,
-	'BBlue': HIGHT,
-	'AdminLight': HIGHT,
-	'area1_W1': LOW,
-	'area1_TL1': HIGHT,
-	'area2_W2': LOW,
-	'area2_TL2': HIGHT,
-	'area3_W3': LOW,
-	'area3_TL3': HIGHT,
-	'area4_W4': LOW,
-	'area4_TL4': HIGHT,
-	'hallway1_WK1': LOW,
-	'hallway1_TLK1': HIGHT,
-	'hallway2_WK2': LOW,
-	'hallway2_TLK2': HIGHT,
-	'give_LK1': HIGHT,
-	'medicBag_A': LOW,
-	'medicBag_B': LOW
+	'r1o1': HIGHT,
+	'r1o2': HIGHT,
+	'r1o3': HIGHT,
+	'r1o4': HIGHT,
+	'r1o5': HIGHT,
+	'r1o6': HIGHT,
+	'r2o7': LOW,
+	'r2o8': HIGHT,
+	'r2o9': LOW,
+	'r2o10': HIGHT,
+	'r2o11': LOW,
+	'r2o12': HIGHT,
+	'r2o13': LOW,
+	'r2o14': HIGHT,
+	'r2o15': LOW,
+	'r2o16': HIGHT,
+	'r2o17': LOW,
+	'r2o18': HIGHT,
+	'r2o19': HIGHT,
+	'r2o20': LOW,
+	'r2o21': LOW
 }
-
+static_outs = []
 
 inputs = {
-	'game_button': LOW,
-	'start_stage': LOW,
-	'stop_stage': LOW,
-	'sound_button': LOW,
-	'light_button': LOW,
-	'signal_R': LOW,
-	'signal_G': LOW,
-	'signal_B': LOW,
-	'takeFlag_A': LOW,
-	'takeFlag_B': LOW,
-	'giveFlag_A': LOW,
-	'giveFlag_B': LOW,
-	'bomb_activated': LOW,
-	'bomb_planted': LOW
+	'r1i1': LOW,
+	'r1i2': LOW,
+	'r1i3': LOW,
+	'r1i4': LOW,
+	'r1i5': LOW,
+	'r1i6': LOW,
+	'r1i7': LOW,
+	'r1i8': LOW,
+	'r1i9': LOW,
+	'r1i10': LOW,
+	'r1i11': LOW,
+	'r1i12': LOW,
+	'r1i13': LOW,
+	'r1i14': LOW
 }
 
 if __name__ == '__main__':

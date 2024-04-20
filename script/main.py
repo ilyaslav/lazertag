@@ -39,6 +39,13 @@ class MyApp(Ui_MainWindow):
 		self.include_stage()
 		self.game.check_timers()
 		self.change_volume()
+		self.change_diagnostic()
+
+	def change_diagnostic(self):
+		if settings.diagnosticEvent:
+			settings.diagnosticEvent = False
+			self.diagnosticWidget.reset_inputs()
+			self.diagnosticWidget.reset_outs()
 
 	def change_volume(self):
 		if settings.volumeEvent:
@@ -231,10 +238,11 @@ class MyApp(Ui_MainWindow):
 			if settings.emergencyStatus:
 				self.mainMenuWidget.emergency_button_off()
 				self.game.emergency_on()
+				self.diagnosticWidget.disable_diagnostic()
 			else:
 				self.mainMenuWidget.emergency_button_on()
 				self.game.emergency_off()
-			print('emergencyStatus =', settings.emergencyStatus)
+				self.diagnosticWidget.enable_diagnostic()
 			settings.emergencyEvent = False
 
 	def init_game(self):
@@ -291,12 +299,13 @@ class MyApp(Ui_MainWindow):
 		self.game.stop_stage()
 
 	def blink_button(self):
-		if not settings.outs['tableButton']:
+		if not settings.outs['r1o1']:
 			self.mainMenuWidget.green_start_button()
 		else:
 			self.mainMenuWidget.white_start_button()
-		settings.outs['tableButton'] = not settings.outs['tableButton']
-		self.game.reset_out('tableButton')
+		settings.outs['r1o1'] = not settings.outs['r1o1']
+		self.game.reset_out('r1o1')
+
 	def start_blink_timer(self):
 		self.blink_timer = QTimer()
 		self.blink_timer.timeout.connect(self.blink_button)
@@ -360,6 +369,15 @@ class MyApp(Ui_MainWindow):
 
 	def change_tab_color(self):
 		self.tabWidget.set_green(int((settings.currentStage+1)/2))
+
+	def bt_out_press(self, out):
+		settings.outs[out] = not settings.outs[out]
+		settings.diagnosticEvent = True
+		self.game.reset_out(out)
+		if out not in settings.static_outs:
+			settings.static_outs.append(out)
+		else:
+			settings.static_outs.remove(out)
 
 if __name__ == "__main__":
 	import sys
