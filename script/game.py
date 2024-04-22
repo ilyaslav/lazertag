@@ -233,10 +233,9 @@ class Game:
 		settings.emergencyEvent = True
 
 	def check_to_start(self):
-		for status in settings.settingsToStart:
-			if not settings.settingsToStart[status]:
-				settings.readyToStart = False
-				return settings.readyToStart
+		if False in list(settings.settingsToStart.values()):
+			settings.readyToStart = False
+			return settings.readyToStart
 		if not settings.gameStatus and not settings.initStatus:
 			settings.readyToStart = True
 		return settings.readyToStart

@@ -20,6 +20,7 @@ class DiagnosticWidget(QtWidgets.QWidget):
         self.frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_5.setObjectName("frame_5")
+        self.frame_5.setMaximumSize(QtCore.QSize(16777215, 60))
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.frame_5)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.input_on = QtWidgets.QLabel(self.frame_5)
@@ -89,59 +90,6 @@ class DiagnosticWidget(QtWidgets.QWidget):
         self.out_off.setObjectName("out_off")
         self.horizontalLayout_8.addWidget(self.out_off)
         self.verticalLayout_7.addWidget(self.frame_5)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.frame_3 = QtWidgets.QFrame(self)
-        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_3.setObjectName("frame_3")
-        self.gridLayout = QtWidgets.QGridLayout(self.frame_3)
-        self.gridLayout.setObjectName("gridLayout")
-        self.r1_state = QtWidgets.QLabel(self.frame_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.r1_state.sizePolicy().hasHeightForWidth())
-        self.r1_state.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.r1_state.setFont(font)
-        self.r1_state.setStyleSheet("QLabel{\n"
-"    border-style: dashed;\n"
-"    border-width: 3px;\n"
-"    border-color: rgb(255, 0, 0);\n"
-"    color: rgb(255, 0, 0);\n"
-"    border-radius: 8px;\n"
-"}")
-        self.r1_state.setObjectName("r1_state")
-        self.gridLayout.addWidget(self.r1_state, 0, 0, 1, 1)
-        self.horizontalLayout.addWidget(self.frame_3)
-        self.frame_4 = QtWidgets.QFrame(self)
-        self.frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_4.setObjectName("frame_4")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.frame_4)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        self.r2_state = QtWidgets.QLabel(self.frame_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.r2_state.sizePolicy().hasHeightForWidth())
-        self.r2_state.setSizePolicy(sizePolicy)
-        font = QtGui.QFont()
-        font.setPointSize(10)
-        self.r2_state.setFont(font)
-        self.r2_state.setStyleSheet("QLabel{\n"
-"    border-style: dashed;\n"
-"    border-width: 3px;\n"
-"    border-color: rgb(0, 255, 0);\n"
-"    color: rgb(0, 255, 0);\n"
-"    border-radius: 8px;\n"
-"}")
-        self.r2_state.setObjectName("r2_state")
-        self.gridLayout_2.addWidget(self.r2_state, 0, 0, 1, 1)
-        self.horizontalLayout.addWidget(self.frame_4)
-        self.verticalLayout_7.addLayout(self.horizontalLayout)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
 
@@ -766,8 +714,6 @@ class DiagnosticWidget(QtWidgets.QWidget):
         self.diagnostic_state.setText(_translate("self", "Включить ручное управление"))
         self.out_on.setText(_translate("self", "Выход включен"))
         self.out_off.setText(_translate("self", "Выход отключен"))
-        self.r1_state.setText(_translate("self", "<b>Малинка 1 отключена"))
-        self.r2_state.setText(_translate("self", "<b>Малинка 2 подключена"))
         self.r1i1.setText(_translate("self", "X1.1 Запускостановка игры"))
         self.r1i2.setText(_translate("self", "X1.2 Запуск сценария"))
         self.r1i3.setText(_translate("self", "X1.3 Остановка сценария"))

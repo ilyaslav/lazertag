@@ -76,9 +76,16 @@ diagnosticEvent = False
 
 settingsToStart = {
 	'scriptsMap': False,
-	'players': True,
-	'selebrant': True,
-	'instructors': True
+	'players': False,
+	'celebrant': False,
+	'instructors': False
+}
+
+settingsToWrite = {
+	'scriptsMap': '',
+	'players': '',
+	'celebrant': '',
+	'instructors': ''
 }
 
 def getStageName():

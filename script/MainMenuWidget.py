@@ -1109,6 +1109,124 @@ class MainMenuWidget(QtWidgets.QWidget):
 "     background-color: #00bb00;\n"
 "}")
 
+    def change_participants_box(self):
+        if self.participants_box.value() < 6:
+            self.participants_box.setStyleSheet(
+                "QSpinBox\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #bb0000;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"}\n"
+"QSpinBox::up-button { width: 0px; }\n"
+"QSpinBox::down-button { width: 0px; }\n"
+"QPushButton\n"
+"{\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 8px;\n"
+"}\n"
+            )
+        else:
+            self.participants_box.setStyleSheet(
+                "QSpinBox\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #00bb00;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"}\n"
+"QSpinBox::up-button { width: 0px; }\n"
+"QSpinBox::down-button { width: 0px; }\n"
+"QPushButton\n"
+"{\n"
+"    background-color: rgb(255, 255, 255);\n"
+"    border-radius: 8px;\n"
+"}\n"
+            )
+
+    def change_celebrant_box(self):
+        if self.celebrant_box.currentIndex() == 0:
+            self.celebrant_box.setStyleSheet("QComboBox\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #bb0000;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"    padding-left: 20px;\n"
+"    combobox-popup: 0;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down \n"
+"{\n"
+"    width: 0px;\n"
+"    height: 0px;\n"
+"    border: 0px;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"  color: rgb(85, 170, 255);    \n"
+"  background-color: #373e4e;\n"
+"  padding: 10px;\n"
+"  selection-background-color: rgb(39, 44, 54);\n"
+"}\n")
+        else:
+            self.celebrant_box.setStyleSheet("QComboBox\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #00bb00;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"    padding-left: 20px;\n"
+"    combobox-popup: 0;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down \n"
+"{\n"
+"    width: 0px;\n"
+"    height: 0px;\n"
+"    border: 0px;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"  color: rgb(85, 170, 255);    \n"
+"  background-color: #373e4e;\n"
+"  padding: 10px;\n"
+"  selection-background-color: rgb(39, 44, 54);\n"
+"}\n")
+
+    def change_instructors_box(self):
+        if self.instructors_box.toPlainText() == '':
+            self.instructors_box.setStyleSheet("QTextEdit\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #bb0000;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"    padding: 25px;\n"
+"}")
+        else:
+            self.instructors_box.setStyleSheet("QTextEdit\n"
+"{\n"
+"    border-style: solid;\n"
+"    border-width: 3px;\n"
+"    border-color:  #00bb00;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0,    x2: 0, y2: 1,\n"
+"    stop: 0 #B5B8B1, stop: 1 #ffffff);\n"
+"    border-radius: 8px;\n"
+"    padding: 25px;\n"
+"}")
+
     def change_script_box(self, script_box):
         if script_box.currentText() == 'Сценарий не выбран':
             script_box.setStyleSheet("QComboBox\n"

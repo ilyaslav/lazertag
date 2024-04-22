@@ -118,6 +118,33 @@ class Ui_MainWindow(object):
     def bt_out_press(self, out):
         pass
 
+    def change_participants(self):
+        self.mainMenuWidget.change_participants_box()
+        settings.settingsToWrite['players'] = self.mainMenuWidget.participants_box.value()
+        if self.mainMenuWidget.participants_box.value() > 5:
+            settings.settingsToStart['players'] = True
+        else:
+            settings.settingsToStart['players'] = False
+            self.set_notReady()
+
+    def change_celebrant(self):
+        self.mainMenuWidget.change_celebrant_box()
+        settings.settingsToWrite['celebrant'] = self.mainMenuWidget.celebrant_box.currentText()
+        if self.mainMenuWidget.celebrant_box.currentIndex() != 0:
+            settings.settingsToStart['celebrant'] = True
+        else:
+            settings.settingsToStart['celebrant'] = False
+            self.set_notReady()
+
+    def change_instructors(self):
+        self.mainMenuWidget.change_instructors_box()
+        settings.settingsToWrite['instructors'] = self.mainMenuWidget.instructors_box.toPlainText()
+        if self.mainMenuWidget.instructors_box.toPlainText() != '':
+            settings.settingsToStart['instructors'] = True
+        else:
+            settings.settingsToStart['instructors'] = False
+            self.set_notReady()
+
     def connect_functions(self):
         self.mainMenuWidget.emergency_lighting_button.pressed.connect(self.mainMenuWidget.emergency_button_press)
         self.mainMenuWidget.add_time_button.pressed.connect(self.mainMenuWidget.add_time)
@@ -138,6 +165,9 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.start_game_button.pressed.connect(self.start_game_button_press)
         self.mainMenuWidget.stop_game_button.pressed.connect(self.stop_game_button_press)
         self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume_level)
+        self.mainMenuWidget.participants_box.valueChanged.connect(self.change_participants)
+        self.mainMenuWidget.instructors_box.textChanged.connect(self.change_instructors)
+        self.mainMenuWidget.celebrant_box.currentTextChanged.connect(self.change_celebrant)
         self.diagnosticWidget.diagnostic_state.pressed.connect(self.diagnosticWidget.bt_diagnostic_press)
         for out in self.diagnosticWidget.outs:
             self.diagnosticWidget.outs[out].pressed.connect(functools.partial(self.bt_out_press, out))
@@ -160,6 +190,7 @@ class Ui_MainWindow(object):
             self.set_notReady()
 
     def scripts_map_event(self):
+        settings.settingsToWrite['scriptsMap'] = self.mainMenuWidget.scripts_map.currentText()
         for scr in self.mainMenuWidget.data['scripts_map']:
             if self.mainMenuWidget.scripts_map.currentText() == scr['name']:
                 self.change_scripts_map(scr['id'], scr['numberOfStage'])
@@ -318,6 +349,9 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.enabled_scripts_map()
         self.mainMenuWidget.enabled_check_time()
         self.mainMenuWidget.scripts_map.setCurrentText('Сценарная карта не выбрана')
+        self.mainMenuWidget.participants_box.setValue(1)
+        self.mainMenuWidget.celebrant_box.setCurrentIndex(0)
+        self.mainMenuWidget.instructors_box.setText('')
         self.mainMenuWidget.red_timer()
 
     def change_volume_level(self):
