@@ -373,11 +373,11 @@ class MyApp(Ui_MainWindow):
 	def bt_out_press(self, out):
 		settings.outs[out] = not settings.outs[out]
 		settings.diagnosticEvent = True
+		if out in settings.static_outs:
+			settings.static_outs.remove(out)
 		self.game.reset_out(out)
 		if out not in settings.static_outs:
 			settings.static_outs.append(out)
-		else:
-			settings.static_outs.remove(out)
 
 if __name__ == "__main__":
 	import sys

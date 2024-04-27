@@ -14,7 +14,7 @@ class GameClient(Client):
 
 	def messageHandler(self, mes):
 		if mes[:2] == 'r2':
-			gh.reset_out(mes[:-1], bool(mes[-1]))
+			gh.reset_out(mes[:-1], int(mes[-1]))
 		elif mes[:4] == 'play':
 			gm.play(mes[4:])
 		elif mes[:4] == 'stop':

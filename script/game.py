@@ -45,72 +45,76 @@ class GameServer(Server):
 
 	def message_handler(self, mes):
 		print(f'Принято сообщение: {mes}')
-		if mes == 'game_button1':
+		if mes == 'r1i11':
 			settings.inputs['r1i1'] = settings.HIGHT
 			start_main_timer()
-		elif mes == 'game_button0':
+		elif mes == 'r1i10':
 			settings.inputs['r1i1'] = settings.LOW
 			stop_main_timer()
-		elif mes == 'start_stage1':
+		elif mes == 'r1i21':
 			settings.inputs['r1i2'] = settings.HIGHT
 			start_stage_timer1()
-		elif mes == 'start_stage0':
+		elif mes == 'r1i20':
 			settings.inputs['r1i2'] = settings.LOW
 			stop_stage_timer1()
-		if mes == 'stop_stage1':
+		if mes == 'r1i31':
 			settings.inputs['r1i3'] = settings.HIGHT
 			start_stage_timer0()
-		elif mes == 'stop_stage0':
+		elif mes == 'r1i30':
 			settings.inputs['r1i3'] = settings.LOW
 			stop_stage_timer0()
-		if mes == 'sound_button1':
+		if mes == 'r1i41':
 			settings.inputs['r1i4'] = settings.HIGHT
 			start_sound_timer()
-		elif mes == 'sound_button0':
+		elif mes == 'r1i40':
 			settings.inputs['r1i4'] = settings.LOW
 			stop_sound_timer()
-		if mes == 'light_button1':
+		if mes == 'r1i51':
 			settings.inputs['r1i5'] = settings.HIGHT
 			start_emergency_timer()
-		elif mes == 'light_button0':
+		elif mes == 'r1i50':
 			settings.inputs['r1i5'] = settings.LOW
 			stop_emergency_timer()
-		if mes == 'signal_R1':
-			settings.inputs['r1i6'] = settings.HIGHT
-		elif mes == 'signal_R0':
-			settings.inputs['r1i6'] = settings.LOW
-		if mes == 'signal_G1':
-			settings.inputs['r1i7'] = settings.HIGHT
-		elif mes == 'signal_G0':
-			settings.inputs['r1i7'] = settings.LOW
-		if mes == 'signal_B1':
-			settings.inputs['r1i8'] = settings.HIGHT
-		elif mes == 'signal_B0':
-			settings.inputs['r1i8'] = settings.LOW
-		if mes == 'takeFlag_A1':
-			settings.inputs['r1i9'] = settings.HIGHT
-		elif mes == 'takeFlag_A0':
-			settings.inputs['r1i9'] = settings.LOW
-		if mes == 'takeFlag_B1':
-			settings.inputs['r1i10'] = settings.HIGHT
-		elif mes == 'takeFlag_B0':
-			settings.inputs['r1i10'] = settings.LOW
-		if mes == 'giveFlag_A1':
-			settings.inputs['r1i11'] = settings.HIGHT
-		elif mes == 'giveFlag_A0':
-			settings.inputs['r1i11'] = settings.LOW
-		if mes == 'giveFlag_B1':
-			settings.inputs['r1i12'] = settings.HIGHT
-		elif mes == 'giveFlag_B0':
-			settings.inputs['r1i12'] = settings.LOW
-		if mes == 'bomb_activated1':
-			settings.inputs['r1i13'] = settings.HIGHT
-		elif mes == 'bomb_activated0':
-			settings.inputs['r1i13'] = settings.LOW
-		if mes == 'bomb_planted1':
-			settings.inputs['r1i14'] = settings.HIGHT
-		elif mes == 'bomb_planted0':
-			settings.inputs['r1i14'] = settings.LOW
+		if mes[:-1] in settings.inputs.keys():
+			if mes[-1] == '1':
+				settings.inputs[mes[:-1]] = settings.HIGHT
+			else:
+				settings.inputs[mes[:-1]] = settings.LOW
+		settings.diagnosticEvent = True
+		#elif mes == 'signal_R0':
+		#	settings.inputs['r1i6'] = settings.LOW
+		#if mes == 'signal_G1':
+		#	settings.inputs['r1i7'] = settings.HIGHT
+		#elif mes == 'signal_G0':
+		#	settings.inputs['r1i7'] = settings.LOW
+		#if mes == 'signal_B1':
+		#	settings.inputs['r1i8'] = settings.HIGHT
+		#elif mes == 'signal_B0':
+		#	settings.inputs['r1i8'] = settings.LOW
+		#if mes == 'takeFlag_A1':
+		#	settings.inputs['r1i9'] = settings.HIGHT
+		#elif mes == 'takeFlag_A0':
+		#	settings.inputs['r1i9'] = settings.LOW
+		#if mes == 'takeFlag_B1':
+		#	settings.inputs['r1i10'] = settings.HIGHT
+		#elif mes == 'takeFlag_B0':
+		#	settings.inputs['r1i10'] = settings.LOW
+		#if mes == 'giveFlag_A1':
+		#	settings.inputs['r1i11'] = settings.HIGHT
+		#elif mes == 'giveFlag_A0':
+		#	settings.inputs['r1i11'] = settings.LOW
+		#if mes == 'giveFlag_B1':
+		#	settings.inputs['r1i12'] = settings.HIGHT
+		#elif mes == 'giveFlag_B0':
+		#	settings.inputs['r1i12'] = settings.LOW
+		#if mes == 'bomb_activated1':
+		#	settings.inputs['r1i13'] = settings.HIGHT
+		#elif mes == 'bomb_activated0':
+		#	settings.inputs['r1i13'] = settings.LOW
+		#if mes == 'bomb_planted1':
+		#	settings.inputs['r1i14'] = settings.HIGHT
+		#elif mes == 'bomb_planted0':
+		#	settings.inputs['r1i14'] = settings.LOW
 
 	def init_settings(self):
 		if not settings.emergencyStatus:
@@ -163,6 +167,7 @@ class Game:
 		if message not in settings.static_outs:
 			settings.diagnosticEvent = True
 			self.gs.reset_out(message)
+
 
 	def emergency_on(self):
 		self.gs.emergency_on()

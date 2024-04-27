@@ -6,19 +6,19 @@ class PiHandler():
 		self.initGPIO()
 		self.inputs = {
 			'r1i1': [GPIO.input(7), 7],
-			'r1i2': [GPIO.input(8), 8],
-			'r1i3': [GPIO.input(10), 10],
-			'r1i4': [GPIO.input(11), 11],
-			'r1i5': [GPIO.input(13), 13],
-			'r1i6': [GPIO.input(15), 15],
-			'r1i7': [GPIO.input(19), 19],
-			'r1i8': [GPIO.input(21), 21],
-			'r1i9': [GPIO.input(23), 23],
-			'r1i10': [GPIO.input(29), 29],
-			'r1i11': [GPIO.input(31), 31],
-			'r1i12': [GPIO.input(33), 33],
-			'r1i13': [GPIO.input(35), 35],
-			'r1i14': [GPIO.input(37), 37]
+			'r1i2': [GPIO.input(11), 11],
+			'r1i3': [GPIO.input(13), 13],
+			'r1i4': [GPIO.input(15), 15],
+			'r1i5': [GPIO.input(19), 19],
+			'r1i6': [GPIO.input(21), 21],
+			'r1i7': [GPIO.input(23), 23],
+			'r1i8': [GPIO.input(29), 29],
+			'r1i9': [GPIO.input(31), 31],
+			'r1i10': [GPIO.input(33), 33],
+			'r1i11': [GPIO.input(35), 35],
+			'r1i12': [GPIO.input(37), 37],
+			'r1i13': [GPIO.input(8), 8],
+			'r1i14': [GPIO.input(10), 10]
 		}
 		self.outs = {
 			'r1o1': 12,
@@ -33,19 +33,19 @@ class PiHandler():
 	def get_inputs():
 		inputs = {
 			'r1i1': GPIO.input(7),
-			'r1i2': GPIO.input(8),
-			'r1i3': GPIO.input(10),
-			'r1i4': GPIO.input(11),
-			'r1i5': GPIO.input(13),
-			'r1i6': GPIO.input(15),
-			'r1i7': GPIO.input(19),
-			'r1i8': GPIO.input(21),
-			'r1i9': GPIO.input(23),
-			'r1i10': GPIO.input(29),
-			'r1i11': GPIO.input(31),
-			'r1i12': GPIO.input(33),
-			'r1i13': GPIO.input(35),
-			'r1i14': GPIO.input(37)
+			'r1i2': GPIO.input(11),
+			'r1i3': GPIO.input(13),
+			'r1i4': GPIO.input(15),
+			'r1i5': GPIO.input(19),
+			'r1i6': GPIO.input(21),
+			'r1i7': GPIO.input(23),
+			'r1i8': GPIO.input(29),
+			'r1i9': GPIO.input(31),
+			'r1i10': GPIO.input(33),
+			'r1i11': GPIO.input(35),
+			'r1i12': GPIO.input(37),
+			'r1i13': GPIO.input(8),
+			'r1i14': GPIO.input(10)
 		}
 		return inputs
 
