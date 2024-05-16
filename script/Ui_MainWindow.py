@@ -205,12 +205,18 @@ class Ui_MainWindow(object):
         settings.stages[num] = boolean
         settings.stageNames[int(num/2)] = name
 
+    def change_active_stage(self):
+        if settings.currentStage:
+            settings.currentStage-=1
+            settings.changeStageEvent = True
+
     def script1_box_event(self):
         self.gridLayout_11.removeWidget(self.script1_widget)
         self.tabWidget.setTabText(1, self.mainMenuWidget.script1_box.currentText())
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script1_box)
         name = self.mainMenuWidget.script1_box.currentText()
         self.activate_stage(1, True, name)
+        self.change_active_stage()
 
         if self.mainMenuWidget.script1_box.currentText() == 'Сценарий не выбран':
             settings.currentStage = 0
@@ -235,6 +241,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script2_box)
         name = self.mainMenuWidget.script2_box.currentText()
         self.activate_stage(3, True, name)
+        self.change_active_stage()
 
         if self.mainMenuWidget.script2_box.currentText() == 'Сценарий не выбран':
             self.activate_stage(3, False, name)
@@ -258,6 +265,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script3_box)
         name = self.mainMenuWidget.script3_box.currentText()
         self.activate_stage(5, True, name)
+        self.change_active_stage()
 
         if self.mainMenuWidget.script3_box.currentText() == 'Сценарий не выбран':
             self.activate_stage(5, False, name)
@@ -281,6 +289,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script4_box)
         name = self.mainMenuWidget.script4_box.currentText()
         self.activate_stage(7, True, name)
+        self.change_active_stage()
 
         if self.mainMenuWidget.script4_box.currentText() == 'Сценарий не выбран':
             self.activate_stage(7, False, name)
@@ -304,6 +313,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.change_script_box(self.mainMenuWidget.script5_box)
         name = self.mainMenuWidget.script5_box.currentText()
         self.activate_stage(9, True, name)
+        self.change_active_stage()
 
         if self.mainMenuWidget.script5_box.currentText() == 'Сценарий не выбран':
             self.activate_stage(9, False, name)
@@ -330,16 +340,17 @@ class Ui_MainWindow(object):
             settings.event = True
 
     def stop_game_button_press(self):
-        settings.readyToStart = False
-        settings.initStatus = False
-        settings.gameStatus = False
-        settings.event = True
+        if settings.gameStatus and not settings.stageStatus or settings.initStatus:
+            settings.readyToStart = False
+            settings.initStatus = False
+            settings.gameStatus = False
+            settings.event = True
 
     def check_game_score_event(self):
         if self.mainMenuWidget.check_game_score.checkState() == 2:
-            self.mainMenuWidget.disabled_updown_buttons()
+            settings.check_game_score = True
         else:
-            self.mainMenuWidget.enabled_updown_buttons()
+            settings.check_game_score = False
 
     def check_game_time_event(self):
         print(self.mainMenuWidget.check_game_time.checkState())

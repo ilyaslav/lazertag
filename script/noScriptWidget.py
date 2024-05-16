@@ -1068,6 +1068,9 @@ class NoScriptWidget(ScriptWidget):
                     self.set_time(settings.mainTime)
 
     def bt_start1_press(self):
+        print(settings.currentStage)
+        print(self.is_selected1)
+        print(settings.stageStatus)
         if self.is_selected1 and not settings.stageStatus:
             settings.startStageEvent = True
 
@@ -1081,6 +1084,7 @@ class NoScriptWidget(ScriptWidget):
             self.stage1_time_check()
             self.check_stage1_time.setDisabled(True)
             self.exclude_stage1.setDisabled(True)
+            self.wow_effects1.setDisabled(True)
             self.green_timer1()
             self.green_stage_label1()
             self.green_start_button1()
@@ -1089,6 +1093,7 @@ class NoScriptWidget(ScriptWidget):
             self.stage2_time_check()
             self.check_stage2_time.setDisabled(True)
             self.exclude_stage2.setDisabled(True)
+            self.wow_effects2.setDisabled(True)
             self.green_timer2()
             self.green_stage_label2()
             self.green_start_button2()

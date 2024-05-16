@@ -124,18 +124,18 @@ class GameServer(Server):
 			self.emergency_on()
 
 	def emergency_on(self):
-		self.send_message('area1_W10;')
-		self.send_message('area1_TL11;')
-		self.send_message('area2_W20;')
-		self.send_message('area2_TL21;')
-		self.send_message('area3_W30;')
-		self.send_message('area3_TL31;')
-		self.send_message('area4_W40;')
-		self.send_message('area4_TL41;')
-		self.send_message('hallway1_WK10;')
-		self.send_message('hallway1_TLK11;')
-		self.send_message('hallway2_WK20;')
-		self.send_message('hallway2_TLK21;')
+		self.send_message('r2o70;')
+		self.send_message('r2081;')
+		self.send_message('r2o90;')
+		self.send_message('r2o101;')
+		self.send_message('r2o110;')
+		self.send_message('r2o121;')
+		self.send_message('r2o130;')
+		self.send_message('r2o141;')
+		self.send_message('r2o150;')
+		self.send_message('r2o161;')
+		self.send_message('r2o170;')
+		self.send_message('r2o181;')
 
 	def reset_out(self, message):
 		if settings.outs[message]:
@@ -277,19 +277,20 @@ class Game:
 		red = settings.getCount('red')
 		blue = settings.getCount('blue')
 		time.sleep(3)
-		self.play_music(3)
-		time.sleep(4.5)
-		self.play_music(red, type_ = 'up')
-		time.sleep(1.5)
-		self.play_music(blue, type_ = 'down')
-		time.sleep(1.5)
-		settings.counters['mainСounterRed'] = 0
-		settings.counters['mainСounterBlue'] = 0
-		if red > blue:
-			self.play_music(4)
-		elif red < blue:
-			self.play_music(5)
-		time.sleep(3)
+		if settings.check_game_score:
+			self.play_music(3)
+			time.sleep(4.5)
+			self.play_music(red, type_ = 'up')
+			time.sleep(1.5)
+			self.play_music(blue, type_ = 'down')
+			time.sleep(1.5)
+			settings.counters['mainСounterRed'] = 0
+			settings.counters['mainСounterBlue'] = 0
+			if red > blue:
+				self.play_music(4)
+			elif red < blue:
+				self.play_music(5)
+			time.sleep(3)
 		self.play_music(6)
 
 	def end_stage_music(self):

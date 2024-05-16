@@ -1063,7 +1063,6 @@ class MainMenuWidget(QtWidgets.QWidget):
         self.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
         self.disabled_scripts()
-        self.disabled_updown_buttons()
 
     def read_json(self):
         with open('data.txt') as json_file:

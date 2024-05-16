@@ -54,7 +54,8 @@ class MyApp(Ui_MainWindow):
 
 	def change_game_status(self):
 		if not settings.readyToStart and not settings.initStatus\
-		and not settings.gameStatus and settings.event:
+		and not settings.gameStatus and settings.event and \
+		(not settings.stageStatus or settings.currentStage == 0):
 			self.stop_game()
 		elif not settings.readyToStart and self.game.check_to_start():
 			self.mainMenuWidget.yellow_start_button()

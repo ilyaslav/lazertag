@@ -16,7 +16,7 @@ stageTimer1 = False
 stageTimer0 = False
 soundTimer = False
 emergencyTimer = False
-
+check_game_score = True
 
 def check_last():
 	return stages.count(True) == 1
