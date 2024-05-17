@@ -197,7 +197,7 @@ class Game:
 				self.emergency_script()
 
 	def check_time(self, timer):
-		return time.time() - timer >= 2 and time.time() - timer < 4
+		return time.time() - timer >= settings.time[0]['t1'] and time.time() - timer < settings.time[0]['t1']*2
 
 	def start_game_script(self):
 		settings.mainTimer = False
