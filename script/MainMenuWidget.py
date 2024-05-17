@@ -271,6 +271,7 @@ class MainMenuWidget(QtWidgets.QWidget):
 "}")
         self.help_label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.help_label.setIndent(-1)
+        self.help_label.setWordWrap(True)
         self.help_label.setObjectName("help_label")
         self.gridLayout_3.addWidget(self.help_label, 0, 0, 1, 1)
         self.verticalLayout.addWidget(self.frame_6)
@@ -1417,6 +1418,9 @@ class MainMenuWidget(QtWidgets.QWidget):
         if settings.counters['mainСounterBlue']:
             settings.counters['mainСounterBlue']-=1
             self.blue_count_label.setText(str(settings.counters['mainСounterBlue']))
+
+    def change_help(self, text):
+        self.help_label.setText(f'Подсказка: {text}')
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate

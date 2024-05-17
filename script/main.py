@@ -63,6 +63,9 @@ class MyApp(Ui_MainWindow):
 			self.init_game()
 		elif settings.gameStatus and settings.initStatus and settings.event:
 			self.start_game()
+		else:
+			help = self.game.not_ready_to_start()
+			self.mainMenuWidget.change_help(help)
 
 	def change_stage_status(self):
 		widget = self.find_stage()

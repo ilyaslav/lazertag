@@ -237,6 +237,18 @@ class Game:
 		settings.emergencyTimer = False
 		settings.emergencyEvent = True
 
+	def not_ready_to_start(self):
+		if not settings.settingsToStart['scriptsMap']:
+			return 'Для начала игры необходимо выбрать сценарную карту!'
+		elif not settings.settingsToStart['players']:
+			return 'Для начала игры необходимо выбрать количество участников! Количество участников должно быть не меньше 6.'
+		elif not settings.settingsToStart['celebrant']:
+			return 'Для начала игры необходимо выбрать именинника!'
+		elif not settings.settingsToStart['instructors']:
+			return 'Для начала игры необходимо заполнить поле Инструкторы!'
+		else:
+			return 'Игра готова к запуску!'
+
 	def check_to_start(self):
 		if False in list(settings.settingsToStart.values()):
 			settings.readyToStart = False
