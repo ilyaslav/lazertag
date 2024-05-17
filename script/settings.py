@@ -54,6 +54,7 @@ emergencyStatus = False
 emergencyEvent = False
 
 volume = 100
+volumeStatus = True
 volumeEvent = False
 
 scriptsMap = 0
@@ -200,6 +201,10 @@ outs = {
 	'r2o21': LOW
 }
 static_outs = []
+def clear_static_outs():
+	for out in static_outs:
+		outs[out] = not outs[out]
+	static_outs.clear()
 
 inputs = {
 	'r1i1': LOW,
@@ -217,6 +222,8 @@ inputs = {
 	'r1i13': LOW,
 	'r1i14': LOW
 }
+
+music4 = 0
 
 if __name__ == '__main__':
 	pass

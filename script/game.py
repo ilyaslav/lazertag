@@ -224,13 +224,13 @@ class Game:
 		settings.stageTimer0 = False
 		if settings.stageStatus and settings.gameStatus:
 			settings.stopStageEvent = True
+		elif settings.gameStatus:
+			if settings.music4:
+				self.play_music(settings.music4)
 
 	def sound_script(self):
 		settings.soundTimer = False
-		if settings.volume:
-			settings.volume = 0
-		else:
-			settings.volume = 100
+		settings.volumeStatus = not settings.volumeStatus
 		settings.volumeEvent = True
 
 	def emergency_script(self):
@@ -258,7 +258,10 @@ class Game:
 		return settings.readyToStart
 
 	def change_volume(self):
-		self.gs.send_message(f'volume{int(settings.volume)};')
+		if settings.volumeStatus:
+			self.gs.send_message(f'volume{int(settings.volume)};')
+		else:
+			self.gs.send_message(f'volume0;')
 
 	def play_music(self, music, type_ = 'track'):
 		music = f"{type_}/{music}"
@@ -310,20 +313,22 @@ class Game:
 		self.play_music(13)
 		time.sleep(3)
 		if settings.check_end():
-			pass
+			settings.music4 = 0
 		elif not settings.currentStage%2: #если прошел 1 подэтап
 			self.play_music(14)
-			time.sleep(4)
+			settings.music4 = 14
 		else:
 			#проверка следующего этапа
 			stage_name = settings.getNextStageName()
 			if 'Death match' in stage_name:
-				pass
+				settings.music4 = 0
 			elif 'Контрольная точка' in stage_name or\
 			'Штурм' in stage_name:
 				self.play_music(15)
+				settings.music4 = 15
 			elif 'Бомба' in stage_name:
 				self.play_music(16)
+				settings.music4 = 16
 
 
 	def init_settings(self):

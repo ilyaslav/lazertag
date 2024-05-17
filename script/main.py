@@ -51,6 +51,7 @@ class MyApp(Ui_MainWindow):
 		if settings.volumeEvent:
 			settings.volumeEvent = False
 			self.game.change_volume()
+			self.set_volume_level(settings.volume)
 
 	def change_game_status(self):
 		if not settings.readyToStart and not settings.initStatus\

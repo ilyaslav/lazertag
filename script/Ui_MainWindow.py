@@ -164,7 +164,7 @@ class Ui_MainWindow(object):
         self.mainMenuWidget.script5_box.currentTextChanged.connect(self.script5_box_event)
         self.mainMenuWidget.start_game_button.pressed.connect(self.start_game_button_press)
         self.mainMenuWidget.stop_game_button.pressed.connect(self.stop_game_button_press)
-        self.mainMenuWidget.volume_level.valueChanged.connect(self.change_volume_level)
+        self.mainMenuWidget.volume_level.sliderMoved.connect(self.change_volume_level)
         self.mainMenuWidget.participants_box.valueChanged.connect(self.change_participants)
         self.mainMenuWidget.instructors_box.textChanged.connect(self.change_instructors)
         self.mainMenuWidget.celebrant_box.currentTextChanged.connect(self.change_celebrant)
@@ -199,6 +199,7 @@ class Ui_MainWindow(object):
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script3_box, scr['scripts'][2])
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script4_box, scr['scripts'][3])
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script5_box, scr['scripts'][4])
+                self.mainMenuWidget.disabled_script(scr['numberOfStage'])
 
     def activate_stage(self, num, boolean, name):
         settings.stages[num-1] = boolean
@@ -369,11 +370,13 @@ class Ui_MainWindow(object):
         if settings.volume != self.mainMenuWidget.volume_level.value():
             settings.volume = self.mainMenuWidget.volume_level.value()
             settings.volumeEvent = True
-            print(settings.volume)
 
     def set_volume_level(self, value):
-        if value >= 0 and value <= 100:
-            self.mainMenuWidget.volume_level.setValue(value)
+        if settings.volumeStatus:
+            if value >= 0 and value <= 100:
+                self.mainMenuWidget.volume_level.setValue(value)
+        else:
+            self.mainMenuWidget.volume_level.setValue(0)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

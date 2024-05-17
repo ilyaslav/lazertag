@@ -691,7 +691,7 @@ class DiagnosticWidget(QtWidgets.QWidget):
     def disable_diagnostic(self):
         self.diagnostic_state.setDisabled(True)
         self.disable_buttons()
-        settings.static_outs.clear()
+        settings.clear_static_outs()
 
     def enable_diagnostic(self):
         self.diagnostic_state.setDisabled(False)
@@ -703,7 +703,9 @@ class DiagnosticWidget(QtWidgets.QWidget):
             self.diagnostic_state.setText('Выключить ручное управление')
         else:
             self.disable_buttons()
-            settings.static_outs.clear()
+            print(settings.static_outs)
+            settings.clear_static_outs()
+            print(settings.static_outs)
             self.diagnostic_state.setText('Включить ручное управление')
 
     def retranslateUi(self):

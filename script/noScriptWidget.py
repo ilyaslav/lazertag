@@ -1068,9 +1068,6 @@ class NoScriptWidget(ScriptWidget):
                     self.set_time(settings.mainTime)
 
     def bt_start1_press(self):
-        print(settings.currentStage)
-        print(self.is_selected1)
-        print(settings.stageStatus)
         if self.is_selected1 and not settings.stageStatus:
             settings.startStageEvent = True
 
@@ -1327,6 +1324,8 @@ class NoScriptWidget(ScriptWidget):
         self.exclude_stage2.setDisabled(True)
         self.check_stage2_time.setCheckState(2)
         self.check_stage2_time.setDisabled(True)
+        self.add_time_bt2.setDisabled(False)
+        self.reduce_time_bt2.setDisabled(False)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
