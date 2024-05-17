@@ -199,7 +199,7 @@ class Ui_MainWindow(object):
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script3_box, scr['scripts'][2])
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script4_box, scr['scripts'][3])
                 self.mainMenuWidget.set_scripts_text(self.mainMenuWidget.script5_box, scr['scripts'][4])
-                self.mainMenuWidget.disabled_script(scr['numberOfStage'])
+                #self.mainMenuWidget.disabled_script(scr['numberOfStage'])
 
     def activate_stage(self, num, boolean, name):
         settings.stages[num-1] = boolean

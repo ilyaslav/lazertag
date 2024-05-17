@@ -47,7 +47,8 @@ class GameServer(Server):
 		print(f'Принято сообщение: {mes}')
 		if mes == 'r1i11':
 			settings.inputs['r1i1'] = settings.HIGHT
-			start_main_timer()
+			if not settings.stageStatus:
+				start_main_timer()
 		elif mes == 'r1i10':
 			settings.inputs['r1i1'] = settings.LOW
 			stop_main_timer()
@@ -246,8 +247,10 @@ class Game:
 			return 'Для начала игры необходимо выбрать именинника!'
 		elif not settings.settingsToStart['instructors']:
 			return 'Для начала игры необходимо заполнить поле Инструкторы!'
-		else:
+		elif not settings.gameStatus and not settings.initStatus:
 			return 'Игра готова к запуску!'
+		else:
+			return ''
 
 	def check_to_start(self):
 		if False in list(settings.settingsToStart.values()):
@@ -287,6 +290,17 @@ class Game:
 	def end_game_music_event(self):
 		threading.Thread(target = self.end_game_music, daemon = True).start()
 
+	def score_music(self, red, blue):
+		self.play_music(red, type_ = 'up')
+		time.sleep(1.5)
+		self.play_music(blue, type_ = 'down')
+		time.sleep(1.5)
+		if red > blue:
+			self.play_music(4)
+		elif red < blue:
+			self.play_music(5)
+		time.sleep(3)
+
 	def end_game_music(self):
 		settings.currentStage = 0
 		red = settings.getCount('red')
@@ -295,17 +309,10 @@ class Game:
 		if settings.check_game_score:
 			self.play_music(3)
 			time.sleep(4.5)
-			self.play_music(red, type_ = 'up')
-			time.sleep(1.5)
-			self.play_music(blue, type_ = 'down')
-			time.sleep(1.5)
+			self.score_music(red, blue)
+			self.score_music(red, blue)
 			settings.counters['mainСounterRed'] = 0
 			settings.counters['mainСounterBlue'] = 0
-			if red > blue:
-				self.play_music(4)
-			elif red < blue:
-				self.play_music(5)
-			time.sleep(3)
 		self.play_music(6)
 
 	def end_stage_music(self):
@@ -359,10 +366,15 @@ class Game:
 			for out in settings.outs:
 				self.reset_out(out)
 
-	def init_game(self):
-		settings.outs['r2o15'] = settings.HIGHT
+	def on_r2o19(self):
+		time.sleep(3)
 		settings.outs['r2o19'] = settings.LOW
+		self.reset_out('r2o19')
+
+	def init_game(self):
+		settings.outs['r2o15'] = settings.LOW
 		settings.outs['r1o6'] = settings.LOW
+		threading.Thread(target=self.on_r2o19, daemon=True).start()
 		self.play_music(1)
 
 		if not settings.emergencyStatus:
@@ -371,9 +383,6 @@ class Game:
 
 	def start_game(self):
 		settings.outs['r1o1'] = settings.LOW
-		settings.outs['r2o15'] = settings.LOW
-		settings.outs['r2o19'] = settings.HIGHT
-		#settings.outs['AdminLight'] = settings.HIGHT
 		self.play_music(2)
 
 		if not settings.emergencyStatus:
@@ -440,8 +449,12 @@ class Game:
 			settings.outs['r2o14'] = settings.LOW
 			settings.outs['r2o15'] = settings.HIGHT
 			settings.outs['r2o16'] = settings.LOW
-			settings.outs['r2o17'] = settings.HIGHT
-			settings.outs['r2o18'] = settings.LOW
+			if settings.check_last():
+				settings.outs['r2o17'] = settings.LOW
+				settings.outs['r2o18'] = settings.HIGHT
+			else:
+				settings.outs['r2o17'] = settings.HIGHT
+				settings.outs['r2o18'] = settings.LOW
 			settings.outs['r2o19'] = settings.HIGHT
 
 		if not settings.emergencyStatus:
