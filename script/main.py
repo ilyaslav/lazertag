@@ -160,33 +160,43 @@ class MyApp(Ui_MainWindow):
 			if settings.currentStage == 1:
 				self.script1_widget.is_selected1 = True
 				self.script1_widget.yellow_stage_label1()
+				self.script1_widget.set_timer_type1()
 			elif settings.currentStage == 2:
 				self.script1_widget.is_selected2 = True
 				self.script1_widget.yellow_stage_label2()
+				self.script1_widget.set_timer_type2()
 			elif settings.currentStage == 3:
 				self.script2_widget.is_selected1 = True
 				self.script2_widget.yellow_stage_label1()
+				self.script2_widget.set_timer_type1()
 			elif settings.currentStage == 4:
 				self.script2_widget.is_selected2 = True
 				self.script2_widget.yellow_stage_label2()
+				self.script2_widget.set_timer_type2()
 			elif settings.currentStage == 5:
 				self.script3_widget.is_selected1 = True
 				self.script3_widget.yellow_stage_label1()
+				self.script3_widget.set_timer_type1()
 			elif settings.currentStage == 6:
 				self.script3_widget.is_selected2 = True
 				self.script3_widget.yellow_stage_label2()
+				self.script4_widget.set_timer_type2()
 			elif settings.currentStage == 7:
 				self.script4_widget.is_selected1 = True
 				self.script4_widget.yellow_stage_label1()
+				self.script4_widget.set_timer_type1()
 			elif settings.currentStage == 8:
 				self.script4_widget.is_selected2 = True
 				self.script4_widget.yellow_stage_label2()
+				self.script4_widget.set_timer_type2()
 			elif settings.currentStage == 9:
 				self.script5_widget.is_selected1 = True
 				self.script5_widget.yellow_stage_label1()
+				self.script5_widget.set_timer_type1()
 			elif settings.currentStage == 10:
 				self.script5_widget.is_selected2 = True
 				self.script5_widget.yellow_stage_label2()
+				self.script5_widget.set_timer_type2()
 			settings.changeStageEvent = False
 			self.change_tab_color()
 
@@ -392,5 +402,6 @@ if __name__ == "__main__":
 	MainWindow = QtWidgets.QMainWindow()
 	ui = MyApp()
 	ui.setupUi(MainWindow)
+	MainWindow.setWindowState(Qt.WindowMaximized)
 	MainWindow.show()
 	sys.exit(app.exec_())

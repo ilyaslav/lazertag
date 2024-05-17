@@ -17,12 +17,14 @@ def start_stage_timer0():
 	settings.stageTimer0 = True
 
 def start_sound_timer():
-	settings.startSoundTime = time.time()
-	settings.soundTimer = True
+	if time.time() - settings.startSoundTime > settings.delayTime:
+		settings.startSoundTime = time.time()
+		settings.soundTimer = True
 
 def start_emergency_timer():
-	settings.startEmergencyTime = time.time()
-	settings.emergencyTimer = True
+	if time.time() - settings.startEmergencyTime > settings.delayTime:
+		settings.startEmergencyTime = time.time()
+		settings.emergencyTimer = True
 
 def stop_main_timer():
 	settings.mainTimer = False
@@ -283,6 +285,7 @@ class Game:
 
 	def stop_fon_track(self):
 		self.stop_music(18)
+		self.stop_music(19)
 
 	def end_stage_music_event(self):
 		threading.Thread(target = self.end_stage_music, daemon = True).start()
@@ -367,7 +370,7 @@ class Game:
 				self.reset_out(out)
 
 	def on_r2o19(self):
-		time.sleep(3)
+		time.sleep(5)
 		settings.outs['r2o19'] = settings.LOW
 		self.reset_out('r2o19')
 
@@ -426,9 +429,17 @@ class Game:
 			self.play_music(11)
 			time.sleep(5)
 
+	def play_fon_music(self):
+		stage_name = settings.getStageName()
+		if stage_name in 'Death match +' or\
+		stage_name in 'Флаги +':
+			self.play_music(18)
+		else:
+			self.play_music(19)
+
 	def start_stage(self):
 		self.init_stage()
-		self.play_music(18)
+		self.play_fon_music()
 		if settings.currentStage%2:
 			settings.outs['r1o2'] = settings.HIGHT
 			settings.outs['r1o5'] = settings.HIGHT

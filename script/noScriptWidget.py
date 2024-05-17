@@ -1327,6 +1327,18 @@ class NoScriptWidget(ScriptWidget):
         self.add_time_bt2.setDisabled(False)
         self.reduce_time_bt2.setDisabled(False)
 
+    def set_timer_type1(self):
+        if settings.getStageName() in 'Death match +':
+            self.check_stage1_time.setCheckState(2)
+        else:
+            self.check_stage1_time.setCheckState(0)
+
+    def set_timer_type2(self):
+        if settings.getStageName() in 'Death match +':
+            self.check_stage2_time.setCheckState(2)
+        else:
+            self.check_stage2_time.setCheckState(0)
+
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))

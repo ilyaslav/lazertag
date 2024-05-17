@@ -1443,7 +1443,7 @@ class MainMenuWidget(QtWidgets.QWidget):
         self.start_game_button.setText(_translate("self", "Запуск игры"))
         self.stop_game_button.setText(_translate("self", "Стоп"))
         self.check_game_time.setText(_translate("self", "Время игры"))
-        self.main_timer.setText(_translate("self", "01 : 30 : 00"))
+        self.main_timer.setText(_translate("self", "01 : 29 : 00"))
         self.label_10.setText(_translate("self", "-1 мин"))
         self.label_11.setText(_translate("self", "+1 мин"))
         self.check_game_score.setText(_translate("self", "Счет игры"))

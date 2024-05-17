@@ -71,7 +71,7 @@ data['scripts_map'].append({
     'scripts': (
         'Death match',
         'Контрольная точка',
-        'Штурм +',
+        'Штурм',
         'Death match +',
         'Сценарий не выбран')
     })
@@ -81,7 +81,7 @@ data['scripts_map'].append({
     'numberOfStage': 4,
     'scripts': (
         'Death match',
-        'Контрольная точка +',
+        'Контрольная точка',
         'Флаги',
         'Death match +',
         'Сценарий не выбран')
@@ -93,7 +93,7 @@ data['scripts_map'].append({
     'scripts': (
         'Death match',
         'Контрольная точка',
-        'Флаги +',
+        'Бомба',
         'Death match +',
         'Сценарий не выбран')
     })
@@ -121,8 +121,8 @@ data['scripts_map'].append({
     })
 data['time'] = []
 data['time'].append({
-    'mainTime': 5400,
-    't1': 2,
+    'mainTime': 5340,
+    't1': 0.5,
     't2': 240,
     't3': 1,
     't4': 300,
@@ -131,5 +131,3 @@ data['time'].append({
 
 with open('data.txt', 'w') as outfile:
     json.dump(data, outfile)#, ensure_ascii=False)
-
-
