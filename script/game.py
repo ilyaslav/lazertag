@@ -84,40 +84,6 @@ class GameServer(Server):
 			else:
 				settings.inputs[mes[:-1]] = settings.LOW
 		settings.diagnosticEvent = True
-		#elif mes == 'signal_R0':
-		#	settings.inputs['r1i6'] = settings.LOW
-		#if mes == 'signal_G1':
-		#	settings.inputs['r1i7'] = settings.HIGHT
-		#elif mes == 'signal_G0':
-		#	settings.inputs['r1i7'] = settings.LOW
-		#if mes == 'signal_B1':
-		#	settings.inputs['r1i8'] = settings.HIGHT
-		#elif mes == 'signal_B0':
-		#	settings.inputs['r1i8'] = settings.LOW
-		#if mes == 'takeFlag_A1':
-		#	settings.inputs['r1i9'] = settings.HIGHT
-		#elif mes == 'takeFlag_A0':
-		#	settings.inputs['r1i9'] = settings.LOW
-		#if mes == 'takeFlag_B1':
-		#	settings.inputs['r1i10'] = settings.HIGHT
-		#elif mes == 'takeFlag_B0':
-		#	settings.inputs['r1i10'] = settings.LOW
-		#if mes == 'giveFlag_A1':
-		#	settings.inputs['r1i11'] = settings.HIGHT
-		#elif mes == 'giveFlag_A0':
-		#	settings.inputs['r1i11'] = settings.LOW
-		#if mes == 'giveFlag_B1':
-		#	settings.inputs['r1i12'] = settings.HIGHT
-		#elif mes == 'giveFlag_B0':
-		#	settings.inputs['r1i12'] = settings.LOW
-		#if mes == 'bomb_activated1':
-		#	settings.inputs['r1i13'] = settings.HIGHT
-		#elif mes == 'bomb_activated0':
-		#	settings.inputs['r1i13'] = settings.LOW
-		#if mes == 'bomb_planted1':
-		#	settings.inputs['r1i14'] = settings.HIGHT
-		#elif mes == 'bomb_planted0':
-		#	settings.inputs['r1i14'] = settings.LOW
 
 	def init_settings(self):
 		if not settings.emergencyStatus:
@@ -397,14 +363,15 @@ class Game:
 		self.init_settings()
 
 	def init_stage(self):
-		settings.outs['r2o7'] = settings.HIGHT
-		settings.outs['r2o11'] = settings.HIGHT
-		if settings.currentStage%2:
-			settings.outs['r1o2'] = settings.LOW
-			settings.outs['r1o5'] = settings.LOW
-		else:
-			settings.outs['r1o4'] = settings.LOW
-			settings.outs['r1o3'] = settings.LOW
+		if settings.getStageName() not in 'Штурм +':
+			settings.outs['r2o7'] = settings.HIGHT
+			settings.outs['r2o11'] = settings.HIGHT
+			if settings.currentStage%2:
+				settings.outs['r1o2'] = settings.LOW
+				settings.outs['r1o5'] = settings.LOW
+			else:
+				settings.outs['r1o4'] = settings.LOW
+				settings.outs['r1o3'] = settings.LOW
 		self.play_music(17)
 
 		if not settings.emergencyStatus:
@@ -466,7 +433,6 @@ class Game:
 			else:
 				settings.outs['r2o17'] = settings.HIGHT
 				settings.outs['r2o18'] = settings.LOW
-			settings.outs['r2o19'] = settings.HIGHT
 
 		if not settings.emergencyStatus:
 			for out in settings.outs:
@@ -487,7 +453,6 @@ class Game:
 			settings.outs['r2o16'] = settings.HIGHT
 			settings.outs['r2o17'] = settings.LOW
 			settings.outs['r2o18'] = settings.HIGHT
-			settings.outs['r2o19'] = settings.LOW
 
 			if not settings.emergencyStatus:
 				for out in settings.outs:
