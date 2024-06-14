@@ -3,6 +3,8 @@ import json
 import threading
 import time
 from server import Server
+import pandas as pd
+from datetime import datetime
 
 def start_main_timer():
 	settings.startMainTime = time.time()
@@ -335,12 +337,84 @@ class Game:
 			for out in settings.outs:
 				self.reset_out(out)
 
+	def init_exel_settings(self):
+		settings.settingsToWrite = {
+	'date': None,
+	'scriptsMap': '',
+	'scripts': None,
+	'synchronization': 'Нет',
+	'scheduleStart': 0,
+	'players': '',
+	'celebrant': '',
+	'instructors': '',
+	'startTime': 0,
+	'initGame': 0,
+	'startGame': 0,
+	'stageTime': [],
+	'stopGame': 0
+}
+
+	def save_to_exel(self):
+		now = datetime.now()
+		current_date = now.strftime("%d:%m:%y")
+		current_time = now.strftime("%H:%M:%S")
+		data = {
+			"Наименование графы": [
+				"Дата игры",
+				"Количество участников (N)",
+				"Сценарная карта",
+				"Сценарии",
+				"Синхронизация по расписанию",
+				"Начало по расписанию",
+				"Фактическое начало игры",
+				"Задержка игры (Т1)",
+				"Время выдачи оборудования (Т2)",
+				"Коэффициент выдачи оборудования",
+				"Время вступительного инструктажа (Т3)",
+				"Игровое время (Тигр)",
+				"Время простоя между сценариями (Тпр)",
+				"Общее время простоя (Тобщ.пр)",
+				"Коэффициент простоя (Кпр)",
+				"Общая продолжительность игры (Тобщ.прод)",
+				"Фактическое окончание игры",
+				"Инструкторы"
+			],
+			"Значение": [
+				f'{current_date}',
+				f'{settings.getPlayers()}',
+				f'{settings.getScriptsMap()}',
+				f'{settings.getStageNames()}',
+				f'{settings.getSynchronization()}',
+				f'', #не заполянется если нет синхронизации
+				f'{settings.getInitGame()}',
+				f'', #не заполянется если нет синхронизации
+				f'{settings.getGiveTime()}',
+				f'{settings.getGiveTimeRatio()}',
+				f'{settings.getBrifTime()}',
+				f'{settings.getGameTime()}',
+				f'{settings.getDowntime()}',
+				f'{settings.getFullDowntime()}',
+				f'{settings.getDowntimeRatio()}',
+				f'{settings.getFullGameTime()}',
+				f'{settings.getStopGame()}',
+				f'{settings.getInstructors()}',
+			]
+		}
+		df = pd.DataFrame(data)
+		file_name = f'data/1.xlsx'
+		df.to_excel(file_name, index=False)
+
+
 	def on_r2o19(self):
 		time.sleep(5)
 		settings.outs['r2o19'] = settings.LOW
 		self.reset_out('r2o19')
 
 	def init_game(self):
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		settings.settingsToWrite['initGame'] = current_time
+
 		settings.outs['r2o15'] = settings.LOW
 		settings.outs['r1o6'] = settings.LOW
 		threading.Thread(target=self.on_r2o19, daemon=True).start()
@@ -351,6 +425,13 @@ class Game:
 				self.reset_out(out)
 
 	def start_game(self):
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		settings.settingsToWrite['startGame'] = current_time
+		settings.settingsToWrite['giveTime'] = \
+			datetime.strptime(current_time,"%H:%M:%S") - \
+				datetime.strptime(settings.settingsToWrite['initGame'], "%H:%M:%S")
+
 		settings.outs['r1o1'] = settings.LOW
 		self.play_music(2)
 
@@ -360,7 +441,17 @@ class Game:
 
 	def stop_game(self):
 		self.stop_fon_track()
+
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		settings.settingsToWrite['stopGame'] = current_time
+		settings.settingsToWrite['fullGameTime'] = \
+			datetime.strptime(settings.settingsToWrite['stopGame'],"%H:%M:%S") - \
+				datetime.strptime(settings.settingsToWrite['initGame'],"%H:%M:%S")
+		self.save_to_exel()
+
 		self.init_settings()
+		self.init_exel_settings()
 
 	def init_stage(self):
 		if settings.getStageName() not in 'Штурм +':
@@ -438,6 +529,10 @@ class Game:
 			for out in settings.outs:
 				self.reset_out(out)
 
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		settings.settingsToWrite['stageTime'].append(current_time)
+
 	def stop_stage(self):
 		if settings.wowEffects:
 			self.play_music(17)
@@ -457,3 +552,7 @@ class Game:
 			if not settings.emergencyStatus:
 				for out in settings.outs:
 					self.reset_out(out)
+
+		now = datetime.now()
+		current_time = now.strftime("%H:%M:%S")
+		settings.settingsToWrite['stageTime'].append(current_time)

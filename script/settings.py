@@ -1,3 +1,4 @@
+from datetime import datetime
 LOW = True
 HIGHT = False
 
@@ -85,10 +86,106 @@ settingsToStart = {
 
 settingsToWrite = {
 	'scriptsMap': '',
+	'synchronization': 'Нет',
+	'scheduleStart': None,
 	'players': '',
 	'celebrant': '',
-	'instructors': ''
+	'instructors': '',
+	'initGame': None,
+	'startGame': None,
+	'giveTime': None,
+	'brifTime': None,
+	'gameTime': None,
+	'downtime': None,
+	'fullDowntime': None,
+	'fullGameTime': None,
+	'stageTime': [],
+	'stopGame': None
 }
+
+def getPlayers():
+	return settingsToWrite['players']
+
+def getScriptsMap():
+	return settingsToWrite['scriptsMap']
+
+def getSynchronization():
+	return settingsToWrite['synchronization']
+
+def getInitGame():
+	return settingsToWrite['initGame']
+
+def getGiveTime():
+	return settingsToWrite['giveTime']
+
+def getGiveTimeRatio():
+	return settingsToWrite['giveTime'].total_seconds()/settingsToWrite['players']
+
+def getFullGameTime():
+	return settingsToWrite['fullGameTime']
+
+def getStopGame():
+	return settingsToWrite['stopGame']
+
+def getInstructors():
+	return settingsToWrite['instructors']
+
+def getDowntimeRatio():
+	return settingsToWrite['fullDowntime'].total_seconds() * 100 / settingsToWrite['fullGameTime'].total_seconds()
+
+def getBrifTime():
+	time_format = "%H:%M:%S"
+	settingsToWrite['brifTime'] = \
+		datetime.strptime(settingsToWrite['stageTime'][0], time_format)-\
+			datetime.strptime(settingsToWrite['startGame'], time_format)
+	return settingsToWrite['brifTime']
+
+def getGameTime():
+	j = 0
+	t = None
+	t1 = "00:00:00"
+	time_format = "%H:%M:%S"
+	res = datetime.strptime(t1, time_format)
+	for i in settingsToWrite['stageTime']:
+		j+=1
+		if j % 2:
+			t = i
+		else:
+			res += datetime.strptime(i, time_format) - datetime.strptime(t, time_format)
+	settingsToWrite['gameTime'] = res
+	return res
+
+def getDowntime():
+	j = 0
+	t = None
+	t1 = "00:00:00"
+	time_format = "%H:%M:%S"
+	res = datetime.strptime(t1, time_format)
+	for i in settingsToWrite['stageTime']:
+		j+=1
+		if j % 2 and j > 1:
+			res += datetime.strptime(i, time_format) - datetime.strptime(t, time_format)
+		else:
+			t = i
+	settingsToWrite['downtime'] = res
+	return res
+
+def getFullDowntime():
+	time_format = "%H:%M:%S"
+	t1 = "00:00:00"
+	settingsToWrite['fullDowntime'] = \
+		settingsToWrite['giveTime']+\
+			settingsToWrite['brifTime']+\
+				settingsToWrite['downtime']-\
+				datetime.strptime(t1, time_format)
+	print(settingsToWrite['fullDowntime'])
+	return settingsToWrite['fullDowntime']
+
+def getStageNames():
+	res = ''
+	for stage in stageNames:
+		res+= stage
+	return res
 
 def getStageName():
 	return stageNames[int((currentStage-1)/2)]
